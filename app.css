@@ -1,0 +1,55 @@
+/* #map-canvas {
+  height: 100%;
+  position: absolute; 
+  top: 0; 
+  bottom: -200px; 
+  left: 0; 
+  right: 0; 
+  z-index: 0;
+}
+
+#container {
+  z-index: 100;
+  position: relative;
+} */
+
+#gmap {
+  height: 100%;
+  width: 100%;
+  position: absolute; 
+  top: 0; 
+  bottom: -200px; 
+  left: 0; 
+  right: 0; 
+  z-index: 0;}
+
+.overlap{
+  z-index:2;
+  height: 100%;
+  width: 100%;
+  position: static; 
+
+
+}
+
+ul {
+  list-style-type: none;
+  font-size: 12px
+}
+
+p {
+  list-style-type: none;
+  font-size: 12px
+}
+
+.card { 
+  opacity: 0.93;
+}
+
+.navbar { 
+  opacity: 0.93;
+}
+
+.img { 
+  opacity: 1.0;
+}
