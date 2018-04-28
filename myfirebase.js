@@ -11,20 +11,21 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
+//console.log(database);
 
 // Initial values
 var userAddress = "";
 
 $("#search-button").on("click", function() {
-    userAddress = $("#search-field").val().trim();
     console.log("hi there");
-    database.ref().push({
+    userAddress = $("#search-field").val().trim();
+    database.ref().set({
         userAddress: userAddress
     });
-    database.ref().on("child_added", function(childSnapshot) {
-        console.log(childSnapshot.val().userAddress);
+    database.ref().on("value", function(snapshot) {
+        console.log(snapshot.val().userAddress);
         console.log("hello");
-        var userLocation = childSnapshot.val().userAddress;
+        var userLocation = snapshot.val().userAddress;
+        console.log(userLocation)
     });
-
-});
+})
