@@ -3,7 +3,7 @@
   <body>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <form>
-      <input id="latt" type=text value="" placeholder="lattitude">
+      <input id="latt" type=text value="" placeholder="latitude">
       <input id="long" type=text value="" placeholder="longitude">
       <input id="rad" type=text value="" placeholder="radius (in miles)">
     </form>
@@ -14,10 +14,10 @@
     $("button").on("click", function() {
       $("#videos").html("");
       var location = $(this).attr("data-location");
-      var lattitude = $("#latt").val().trim();
+      var latitude = $("#latt").val().trim();
       var longitude = $("#long").val().trim();
       var radius = $("#rad").val().trim();
-      var queryURL = "https://www.googleapis.com/youtube/v3/search?type=video&part=snippet&location=" + lattitude + "," + longitude + "&locationRadius=" + radius + "miles&key=AIzaSyC3hyycsztOR8N1flGac1ocYQF1PGt6F6M";
+      var queryURL = "https://www.googleapis.com/youtube/v3/search?type=video&part=snippet&location=" + latitude + "," + longitude + "&locationRadius=" + radius + "miles&key=AIzaSyC3hyycsztOR8N1flGac1ocYQF1PGt6F6M";
 
       $.ajax({
       url: queryURL,
@@ -27,14 +27,20 @@
       .then(function(response) {
         var results = response.data;
         console.log(response);
-        for (var i = 0; i < response.items.length; i++) {             
+        console.log(response.pageInfo.totalResults);
+        if (response.pageInfo.totalResults !== 0) {
+          for (var i = 0; i < response.items.length; i++) {             
 
-          console.log(response);
-          console.log(response.items[i].id.videoId)
-          $("#videos").prepend("<img src=" + response.items[i].snippet.thumbnails.default.url + ">");
-          $("#videos").prepend("<a href='https://www.youtube.com/watch?v=" + response.items[i].id.videoId + "'>youtube link</a>");
-          $("#videos").prepend("<iframe width='420' height='315' src='https://www.youtube.com/embed/" + response.items[i].id.videoId + "' frameborder='0' allow='autoplay; encrypted-media' allowfullscreen></iframe>");
-      };
+            console.log(response);
+            console.log(response.items[i].id.videoId);
+            
+            $("#videos").prepend("<img src=" + response.items[i].snippet.thumbnails.default.url + ">");
+            $("#videos").prepend("<a href='https://www.youtube.com/watch?v=" + response.items[i].id.videoId + "'>youtube link</a>");
+            $("#videos").prepend("<iframe width='420' height='315' src='https://www.youtube.com/embed/" + response.items[i].id.videoId + "' frameborder='0' allow='autoplay; encrypted-media' allowfullscreen></iframe>");
+          }
+        } else {
+            alert("no results!");
+          };
         // var tag = document.createElement('script');
         // var link = response.items[0].id.videoId;
         //     tag.src = "https://www.youtube.com/iframe_api";
