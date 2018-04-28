@@ -3,7 +3,7 @@
   <body>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <form>
-      <input id="latt" type=text value="" placeholder="latitude">
+      <input id="lat" type=text value="" placeholder="latitude">
       <input id="long" type=text value="" placeholder="longitude">
       <input id="rad" type=text value="" placeholder="radius (in miles)">
     </form>
@@ -14,7 +14,7 @@
     $("button").on("click", function() {
       $("#videos").html("");
       var location = $(this).attr("data-location");
-      var latitude = $("#latt").val().trim();
+      var latitude = $("#lat").val().trim();
       var longitude = $("#long").val().trim();
       var radius = $("#rad").val().trim();
       var queryURL = "https://www.googleapis.com/youtube/v3/search?type=video&part=snippet&location=" + latitude + "," + longitude + "&locationRadius=" + radius + "miles&key=AIzaSyC3hyycsztOR8N1flGac1ocYQF1PGt6F6M";
