@@ -15,18 +15,19 @@ var database = firebase.database();
 
 // Initial values
 var userAddress = "";
+var userLocationSearch = "";
 $(document).ready(function() {
 $("#search-button").on("click", function() {
-    //console.log("hi there");
     userAddress = $("#search-field").val().trim();
-    database.ref().set({
+    database.ref().push({
         userAddress: userAddress
     });
     database.ref().on("value", function(snapshot) {
-        console.log(snapshot.val().userAddress);
-        //console.log("hello");
-        var userLocation = snapshot.val().userAddress;
-        console.log(userLocation)
+        //console.log(snapshot);
+        userLocationSearch = snapshot.val().userAddress;
+        //console.log(userAddress); //this isn't being added to "popular" for subsequent users
+        console.log(userLocationSearch);
+        $("#popular").text(userLocationSearch) //HOW TO PUSH WHAT'S IN DATABASE TO "POPULAR" FIELD????????????
+        });
     });
-});
 })
