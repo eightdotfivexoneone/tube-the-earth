@@ -7,31 +7,23 @@ $(document).ready(function() {
 
     $("#search-button").on("click", function() {
         var userAddress = $("#search-field").val(); // capturing user's entry in location field
-        console.log(userAddress)
-
-var apiKeyG = "AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU";
-var urlG = "https://maps.googleapis.com/maps/api/geocode/json";
-urlG = urlG + "?" + $.param({
-       'address': userAddress,
-       'key': apiKeyG
-   });
-
-//console.log(userAddress);
+        
+        var apiKeyG = "AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU";
+        var urlG = "https://maps.googleapis.com/maps/api/geocode/json";
+        urlG = urlG + "?" + $.param({
+            'address': userAddress,
+            'key': apiKeyG
+        });
 
 $.ajax({
     url: urlG,
     method: "GET"
 }).then
 
-
     (function(results) {
-        console.log(results.results[0].geometry.location);
-        //console.log(results.results.geometry)????????????????????????????????????????????????????
-
+        
         var lat = results.results[0].geometry.location.lat;
         var long = results.results[0].geometry.location.lng; //necessary to parse??
-
-        //console.log(lat);
 
 ///////////////////////////////////// YOUTUBE API DATA /////////////////////////////////
 
@@ -45,7 +37,7 @@ $.ajax({
         'part': 'snippet',
         'videoEmbeddable': true,
         'location': lat + "," + long,
-        'locationRadius': '150mi',
+        'locationRadius': '10mi',
         'key': apiKeyY,
         'chart': 'mostPopular'
     });
@@ -54,8 +46,13 @@ $.ajax({
         url: urlY,
         method: "GET"
     }).then (function(results) {
-        var thumbnailPath = results.items.snippet.thumbnails.default; //results.results??
-        var thumbnail = JSON.parse(thumbnailPath);
+        for (i=0; i<5; i++) {
+            var thumbnailPath = results.items[i].snippet.thumbnails.default.url;
+            var thumbnail = $("<img>").attr("src", thumbnailPath);
+            $("#popular").append(thumbnail);
+            console.log(thumbnail)
+            //console.log("this works")
+        }
     })
 });
 });
