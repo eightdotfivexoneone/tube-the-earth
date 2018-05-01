@@ -32,13 +32,15 @@ database.ref().on("child_added", function(childSnapshot) { //each time child is 
     childrenArray.push(childSnapshot.val().userAddress); //push the new location the user entered to childrenArray
     if (numChildren < 5) { //if there are fewer than 5 children in database...
         $("#popular").append(childSnapshot.val().userAddress + ", ") //push user's location search to page
-    } else if (numChildren >= 10) { //otherwise, if there are 10+ children in database...
+    } else if (numChildren >= 10) { //otherwise, if there are 10+ children in database...  //NOT WORKING!!!!!!!///////
         $(childrenArray[0]).replaceWith(childSnapshot.val().userAddress); //replace oldest item in childrenArray with latest one
-        $("#popular").html(childrenArray.join(',')); //push updated contents of childrenArray to page BUT NEED COMMAS TO SEPARATE
+        $("#popular").html(childrenArray.join(',')); //push updated contents of childrenArray to page
     }
-    console.log(childrenArray)
+    //console.log(childrenArray)
+    //console.log(numChildren);
+});
+
 });
     
-    }); //if 10+, replace oldest item (set)!!!!!!!!!!!!!!!!!!!!!
-    
-    //GET VIDEO THUMBNAIL IMG TO STAY ON PAGE UPON REFRESH -- look into json.parse
+//GET VIDEO THUMBNAIL IMG TO STAY ON PAGE UPON REFRESH -- look into json.parse
+//SO JUST DO THE SAME THING BUT WITH VIDEO THUMBNAILS INSTEAD OF THEIR SEARCH TERMS

@@ -1,44 +1,62 @@
 ////////////////////////// GOOGLE MAPS GEOCODING API DATA /////////////////////////////////
-var apiKeyG = "";
-var urlG = "";
-var userAddress = $("#search-field").val(); // capturing user's entry in location field
-
-var latLong = { //to convert user's location search entry to lat/long format
-   apiKeyG: "AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU",
-   urlG: "https://maps.googleapis.com/maps/api/geocode/json",
-   urlG: urlG + "?" + $.param({
-       'address': userAddress,
-       'key': apiKeyG
-   }),
-   lat: results.results.address-components.geometry.location.lat,
-   long: results.results.address-components.geometry.location.lng
-};
+//to convert location user enters to lat/long
 
 //https://maps.googleapis.com/maps/api/geocode/json?address=Croatia&key=AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU
 
+$(document).ready(function() {
+
+var userAddress = $("#search-field").val(); // capturing user's entry in location field
+
+var apiKeyG = "AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU";
+var urlG = "https://maps.googleapis.com/maps/api/geocode/json";
+urlG = urlG + "?" + $.param({
+       'address': userAddress,
+       'key': apiKeyG
+   });
+
+//console.log(userAddress);
+
 $.ajax({
     url: urlG,
-    method: GET
-})
+    method: "GET"
+}).then
+
+    (function(results) {
+        var lat = results.address-components.geometry.location.lat;
+        var long = results.address-components.geometry.location.lng; //necessary to parse??
+
+        //console.log(lat);
+        console.log(response);  //RESPONSE OR RESULTS??????????????
 
 ///////////////////////////////////// YOUTUBE API DATA /////////////////////////////////
 
 //https://www.googleapis.com/youtube/v3/search?key=AIzaSyC3hyycsztOR8N1flGac1ocYQF1PGt6F6M&type=video&maxResults=5&part=snippet&chart=mostPopular&%E2%80%8Elocation=43.065041,-70.789078&videoCategoryId=10&videoEmbeddable=true
 
-var apiKeyY = "AIzaSyC3hyycsztOR8N1flGac1ocYQF1PGt6F6M";
-var urlY = "https://www.googleapis.com/youtube/v3/search";
-urlY += "?" + $.param({
-   'type': 'video',
-   'maxResults': 5,
-   'part': 'snippet',
-   'videoEmbeddable': true,
-   'location': latLong.lat + "," + latLong.long,
-   'locationRadius': '150mi',
-   'key': apiKeyY,
-   'chart': 'mostPopular'
+    var apiKeyY = "AIzaSyC3hyycsztOR8N1flGac1ocYQF1PGt6F6M";
+    var urlY = "https://www.googleapis.com/youtube/v3/search";
+    urlY += "?" + $.param({
+        'type': 'video',
+        'maxResults': 5,
+        'part': 'snippet',
+        'videoEmbeddable': true,
+        'location': lat + "," + long,
+        'locationRadius': '150mi',
+        'key': apiKeyY,
+        'chart': 'mostPopular'
+    });
+
+    $.ajax({
+        url: urlY,
+        method: "GET"
+    }).then (function(results) {
+        var thumbnailPath = results.items.snippet.thumbnails.default;
+        var thumbnail = JSON.parse(thumbnailPath);
+    })
+});
 })
 
-$.ajax({
-    url: urlY,
-    method: GET
-})
+/*
+for (i = 0; i < myJSONResult.results.length; i++) {
+  myAddress[i] = myJSONResult.results[i].formatted_address;
+}
+*/
