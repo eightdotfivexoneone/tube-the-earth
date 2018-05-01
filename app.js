@@ -46,9 +46,9 @@ $.ajax({
         url: urlY,
         method: "GET"
     }).then (function(results) {
-        for (i=0; i<5; i++) {
+        for (i=0; i<5; i++) { //pushing 5 location-specific video thumbnails to page
             var thumbnailPath = results.items[i].snippet.thumbnails.default.url;
-            var thumbnail = $("<img>").attr("src", thumbnailPath);
+            var thumbnail = $("<img class='thumbnail'>").attr("src", thumbnailPath);
             $("#popular").append(thumbnail);
             console.log(thumbnail)
             //console.log("this works")
