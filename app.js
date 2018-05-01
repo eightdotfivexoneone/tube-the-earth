@@ -16,7 +16,7 @@ urlG = urlG + "?" + $.param({
        'key': apiKeyG
    });
 
-console.log(userAddress);
+//console.log(userAddress);
 
 $.ajax({
     url: urlG,
@@ -25,13 +25,13 @@ $.ajax({
 
 
     (function(results) {
-        console.log(results.geometry.location)
+        console.log(results.results[0].geometry.location);
+        //console.log(results.results.geometry)????????????????????????????????????????????????????
 
-        var lat = results.geometry.location.lat;
-        var long = results.geometry.location.lng; //necessary to parse??
+        var lat = results.results[0].geometry.location.lat;
+        var long = results.results[0].geometry.location.lng; //necessary to parse??
 
         //console.log(lat);
-        //console.log(results.geometry.location);  //RESPONSE OR RESULTS??????????????
 
 ///////////////////////////////////// YOUTUBE API DATA /////////////////////////////////
 
@@ -54,7 +54,7 @@ $.ajax({
         url: urlY,
         method: "GET"
     }).then (function(results) {
-        var thumbnailPath = results.items.snippet.thumbnails.default;
+        var thumbnailPath = results.items.snippet.thumbnails.default; //results.results??
         var thumbnail = JSON.parse(thumbnailPath);
     })
 });
