@@ -15,20 +15,25 @@ var database = firebase.database();
 
 // Initial values
 var userAddress = "";
-var userLocationSearch = "";
+//var userLocationSearch = "";
+
 $(document).ready(function() {
 $("#search-button").on("click", function() {
+    event.preventDefault();
     userAddress = $("#search-field").val().trim();
     database.ref().push({
         userAddress: userAddress, //add jesse's var for location
-        userLocationSearch: userAddress //storing this data to firebase
+        //userLocationSearch: userAddress //storing this data to firebase
     });
-    database.ref().on("value", function(snapshot) {
-        //console.log(snapshot);
-        userLocationSearch = snapshot.val().userAddress;
-        //console.log(userAddress); //this isn't being added to "popular" for subsequent users
-        //console.log(userLocationSearch - undefined);
-        $("#popular").text(snapshot.val().userLocationSearch) //HOW TO PUSH WHAT'S IN DATABASE TO "POPULAR" FIELD????????????
-        });
+});
+
+database.ref().on("child_added", function(childSnapshot) {
+    console.log(childSnapshot.val().userAddress)
+    //userLocationSearch = snapshot.val().userAddress;
+    //console.log(userAddress); //this isn't being added to "popular" for subsequent users
+    $("#popular").append(childSnapshot.val().userAddress + ", ") //HOW TO PUSH WHAT'S IN DATABASE TO "POPULAR" FIELD????????????
+});
+    
     }); //if < 5 items in database, push; if 10+, replace oldest item (set)!!!!!!!!!!!!!!!!!!!!!
-}) //GET VIDEO THUMBNAIL IMG TO STAY ON PAGE UPON REFRESH -- look into json.parse
+    
+    //GET VIDEO THUMBNAIL IMG TO STAY ON PAGE UPON REFRESH -- look into json.parse
