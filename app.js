@@ -5,15 +5,49 @@
 
 $(document).ready(function() {
 
-    $("#search-button").on("click", function() {
-        var userAddress = $("#search-field").val(); // capturing user's entry in location field
-        
-        var apiKeyG = "AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU";
-        var urlG = "https://maps.googleapis.com/maps/api/geocode/json";
-        urlG = urlG + "?" + $.param({
-            'address': userAddress,
-            'key': apiKeyG
+var userAddress = "";
+var numChildren = 0;
+var childrenArray = [];
+
+// Initialize Firebase
+var config = {
+    apiKey: "AIzaSyB4FzGqNZs6sYG5wsokxnFHJJutJSdbLTY",
+    authDomain: "tube-the-earth.firebaseapp.com",
+    databaseURL: "https://tube-the-earth.firebaseio.com",
+    projectId: "tube-the-earth",
+    storageBucket: "",
+    messagingSenderId: "686431765231"
+  };
+
+firebase.initializeApp(config);
+
+var database = firebase.database();
+
+$("#search-button").on("click", function() {
+    userAddress = $("#search-field").val().trim(); // capturing user's entry in location field
+    event.preventDefault();
+
+    database.ref().push({
+        userAddress: userAddress, //add jesse's var for location
         });
+
+    database.ref().on("child_added", function(childSnapshot) { //each time child is added to database...
+        numChildren++; //increment # of children by one
+        childrenArray.push(childSnapshot.val().userAddress); //push the new location the user entered to childrenArray
+        if (numChildren < 5) { //if there are fewer than 5 children in database...
+            $("#popular").append(childSnapshot.val().userAddress + ", ") //push user's location search to page
+        } else {//otherwise, if there are 5+ children in database...  //NOT WORKING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            childrenArray.splice(0, 1, childSnapshot.val().userAddress); //replace oldest item in childrenArray with newest one
+            $("#popular").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
+        }
+    });
+    
+    var apiKeyG = "AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU";
+    var urlG = "https://maps.googleapis.com/maps/api/geocode/json";
+    urlG = urlG + "?" + $.param({
+        'address': userAddress,
+        'key': apiKeyG
+    });
 
 $.ajax({
     url: urlG,
@@ -57,9 +91,3 @@ $.ajax({
 });
 });
 })
-
-/*
-for (i = 0; i < myJSONResult.results.length; i++) {
-  myAddress[i] = myJSONResult.results[i].formatted_address;
-}
-*/

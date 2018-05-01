@@ -1,5 +1,5 @@
 // Initialize Firebase
-var config = {
+/*var config = {
     apiKey: "AIzaSyB4FzGqNZs6sYG5wsokxnFHJJutJSdbLTY",
     authDomain: "tube-the-earth.firebaseapp.com",
     databaseURL: "https://tube-the-earth.firebaseio.com",
@@ -13,24 +13,26 @@ firebase.initializeApp(config);
 var database = firebase.database();
 //console.log(database);
 
-// Initial values
-var userAddress = "";
-var numChildren = 0;
-var childrenArray = [];
+*/
 
-$(document).ready(function() {
-$("#search-button").on("click", function() {
+// Initial values
+//var userAddress = "";
+//var numChildren = 0;
+//var childrenArray = [];
+
+//$(document).ready(function() {
+/*$("#search-button").on("click", function() {
     event.preventDefault();
     userAddress = $("#search-field").val().trim();
     database.ref().push({
         userAddress: userAddress, //add jesse's var for location
     });
-});
+}); */
 
 //set firebase vars as parameters in function, no need to define outside of it
 //functions for all firebase operations and then call from app.js
 
-database.ref().on("child_added", function(childSnapshot) { //each time child is added to database...
+/* database.ref().on("child_added", function(childSnapshot) { //each time child is added to database...
     numChildren++; //increment # of children by one
     childrenArray.push(childSnapshot.val().userAddress); //push the new location the user entered to childrenArray
     if (numChildren < 5) { //if there are fewer than 5 children in database...
@@ -48,3 +50,4 @@ database.ref().on("child_added", function(childSnapshot) { //each time child is 
 //       $(childrenArray[0]).replaceWith(childSnapshot.val().userAddress);
 //GET VIDEO THUMBNAIL IMG TO STAY ON PAGE UPON REFRESH -- look into json.parse
 //SO JUST DO THE SAME THING BUT WITH VIDEO THUMBNAILS INSTEAD OF THEIR SEARCH TERMS
+*/
