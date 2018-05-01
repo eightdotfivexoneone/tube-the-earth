@@ -5,7 +5,9 @@
 
 $(document).ready(function() {
 
-var userAddress = $("#search-field").val(); // capturing user's entry in location field
+    $("#search-button").on("click", function() {
+        var userAddress = $("#search-field").val(); // capturing user's entry in location field
+        console.log(userAddress)
 
 var apiKeyG = "AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU";
 var urlG = "https://maps.googleapis.com/maps/api/geocode/json";
@@ -14,19 +16,22 @@ urlG = urlG + "?" + $.param({
        'key': apiKeyG
    });
 
-//console.log(userAddress);
+console.log(userAddress);
 
 $.ajax({
     url: urlG,
     method: "GET"
 }).then
 
+
     (function(results) {
-        var lat = results.address-components.geometry.location.lat;
-        var long = results.address-components.geometry.location.lng; //necessary to parse??
+        console.log(results.geometry.location)
+
+        var lat = results.geometry.location.lat;
+        var long = results.geometry.location.lng; //necessary to parse??
 
         //console.log(lat);
-        console.log(response);  //RESPONSE OR RESULTS??????????????
+        //console.log(results.geometry.location);  //RESPONSE OR RESULTS??????????????
 
 ///////////////////////////////////// YOUTUBE API DATA /////////////////////////////////
 
@@ -52,6 +57,7 @@ $.ajax({
         var thumbnailPath = results.items.snippet.thumbnails.default;
         var thumbnail = JSON.parse(thumbnailPath);
     })
+});
 });
 })
 
