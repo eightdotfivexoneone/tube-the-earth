@@ -3,10 +3,7 @@
 
 //https://maps.googleapis.com/maps/api/geocode/json?address=Croatia&key=AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU
 
-$(document).ready(function() {
-
 var userAddress = "";
-var numChildren = 0;
 var childrenArray = [];
 
 // Initialize Firebase
@@ -22,6 +19,26 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
+
+$(document).ready(function() {
+
+          //when data in database changes...
+          database.ref().on("child_added", function(childSnapshot) { //each time another search is added to database...
+            console.log("before push childrenArray",childrenArray.join(', '))
+            childrenArray.push(childSnapshot.val().userAddress); //push the new location the user entered to childrenArray
+            console.log("after push childrenArray",childrenArray.join(', '))
+            var numChildren = childrenArray.length; //increment # of children by one
+            if (numChildren < 5) { //if there are fewer than 5 children in database...
+                $("#recent-searches").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
+            } else if (numChildren >= 5) {//otherwise, if there are 5+ children in database...  //NOT WORKING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                console.log("numchildren >= 5 childrenArray:",childrenArray.join(', '))
+                childrenArray.splice(0, 1, childSnapshot.val().userAddress); //replace oldest item in childrenArray with newest one
+                console.log("after splice childrenArray",childrenArray.join(', '))
+                $("#recent-searches").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
+            }
+    });
+
+
 
 $("#search-button").on("click", function() {
     userAddress = $("#search-field").val().trim(); // capturing user's entry in location field
@@ -71,32 +88,16 @@ $.ajax({
         url: urlY,
         method: "GET"
     }).then (function(results) {
+        $("#popular").empty();
         for (i=0; i<5; i++) { //pushing 5 location-specific video thumbnails to page
             var thumbnailPath = results.items[i].snippet.thumbnails.default.url;
             var thumbnail = $("<img class='thumbnail'>").attr("src", thumbnailPath);
             $("#popular").append(thumbnail);
-            console.log(thumbnail)
-            //console.log("this works")
         }
-        //when data in database changes...
-        database.ref().on("child_added", function(childSnapshot) { //each time another search is added to database...
-            numChildren++; //increment # of children by one
-            childrenArray.push(childSnapshot.val().userAddress); //push the new location the user entered to childrenArray
-            if (numChildren < 5) { //if there are fewer than 5 children in database...
-                $("#recent-searches").append(childSnapshot.val().userAddress + ", ") //push *LOCATION-BASED THUMBNAIL* OR 5?????????? to page
-            } else {//otherwise, if there are 5+ children in database...  //NOT WORKING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                childrenArray.splice(0, 1, childSnapshot.val().userAddress); //replace oldest item in childrenArray with newest one
-                $("#recent-searches").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
-            }
+        });
     });
+        
+
+  
     });
-});
-});
-})
-
-google.maps.event.addListener(map, "click", function(clicked) {
-
-    //lat and lng is available in e object
-    var latLng = clicked.latLng;
-
 });
