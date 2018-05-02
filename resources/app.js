@@ -33,8 +33,8 @@ section.innerHTML =`
 
 // put listener on button and when clicked do the function
 $('#btn-search').click(function renderMap(e) {
-  e.preventDefault();
-  var locationMap = $("#search-input").val();
+    e.preventDefault();
+    var locationMap = $("#search-input").val();
 
  // clear out the map that's there
  section.innerHTML = '';
@@ -48,13 +48,13 @@ $('#btn-search').click(function renderMap(e) {
 
 // Matt's code
 $("#history").on("click", function() {
-  $("#xyz").css("display", "none")
-  $("#recentDiv").css("display", "block")
+    $("#additionalDiv").css("display", "none")
+    $("#historyDiv").css("display", "block")
 });
-  $("#recently").on("click", function() {
-    $("#recentDiv").css("display", "none")
-    $("#xyz").css("display", "block")
-  });
+$("#recently").on("click", function() {
+    $("#historyDiv").css("display", "none")
+    $("#additionalDiv").css("display", "block")
+});
 
 $("#btn-temp").on("click", function() {
    var latitude = $("#lat").val().trim();
@@ -78,9 +78,9 @@ $("#btn-temp").on("click", function() {
          console.log(response.items[i].id.videoId);
          
          $("#cardThumb" + [i]).html("<img class='card-img-top' src=" + response.items[i].snippet.thumbnails.high.url + "> ");
-         $("#youtubeLink" + [i]).html("<a href='https://www.youtube.com/watch?v=" + response.items[i].id.videoId + "'>" + response.items[i].snippet.channelTitle + "</a>");
+         $("#youtubeLink" + [i]).html("<a href='https://www.youtube.com/watch?v=" + response.items[i].id.videoId + "' class='btn btn-danger'>" + response.items[i].snippet.channelTitle + "</a>");
          $("#youtubeTitle" + [i]).html(response.items[i].snippet.title);
-         $("#videoIframe").html("<iframe width='420' height='315' src='https://www.youtube.com/embed/" + response.items[0].id.videoId + "' frameborder='0' allow='autoplay; encrypted-media' allowfullscreen></iframe>");
+         $("#videoIframe").html("<iframe width='100%' src='https://www.youtube.com/embed/" + response.items[0].id.videoId + "' frameborder='0' allow='autoplay; encrypted-media' allowfullscreen></iframe>");
        }
      } else {
          alert("no results!");
