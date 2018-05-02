@@ -94,5 +94,9 @@ $.ajax({
 });
 })
 
-//NEED 5 VIDEO THUMBNAILS RELATED TO USER'S CURRENT SEARCH (OK!!!!)
-//NEED 5 RECENTLY SEARCHED VIDEOS ()
+google.maps.event.addListener(map, "click", function(clicked) {
+
+    //lat and lng is available in e object
+    var latLng = clicked.latLng;
+
+});
