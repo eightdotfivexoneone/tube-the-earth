@@ -27,20 +27,11 @@ $("#search-button").on("click", function() {
     userAddress = $("#search-field").val().trim(); // capturing user's entry in location field
     event.preventDefault();
 
+//push data to firebase
     database.ref().push({
         userAddress: userAddress, //add jesse's var for location
         });
 
-    database.ref().on("child_added", function(childSnapshot) { //each time child is added to database...
-        numChildren++; //increment # of children by one
-        childrenArray.push(childSnapshot.val().userAddress); //push the new location the user entered to childrenArray
-        if (numChildren < 5) { //if there are fewer than 5 children in database...
-            $("#popular").append(childSnapshot.val().userAddress + ", ") //push user's location search to page
-        } else {//otherwise, if there are 5+ children in database...  //NOT WORKING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            childrenArray.splice(0, 1, childSnapshot.val().userAddress); //replace oldest item in childrenArray with newest one
-            $("#popular").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
-        }
-    });
     
     var apiKeyG = "AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU";
     var urlG = "https://maps.googleapis.com/maps/api/geocode/json";
@@ -87,7 +78,21 @@ $.ajax({
             console.log(thumbnail)
             //console.log("this works")
         }
-    })
+        //when data in database changes...
+        database.ref().on("child_added", function(childSnapshot) { //each time another search is added to database...
+            numChildren++; //increment # of children by one
+            childrenArray.push(childSnapshot.val().userAddress); //push the new location the user entered to childrenArray
+            if (numChildren < 5) { //if there are fewer than 5 children in database...
+                $("#recent-searches").append(childSnapshot.val().userAddress + ", ") //push *LOCATION-BASED THUMBNAIL* OR 5?????????? to page
+            } else {//otherwise, if there are 5+ children in database...  //NOT WORKING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                childrenArray.splice(0, 1, childSnapshot.val().userAddress); //replace oldest item in childrenArray with newest one
+                $("#recent-searches").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
+            }
+    });
+    });
 });
 });
 })
+
+//NEED 5 VIDEO THUMBNAILS RELATED TO USER'S CURRENT SEARCH (OK!!!!)
+//NEED 5 RECENTLY SEARCHED VIDEOS ()
