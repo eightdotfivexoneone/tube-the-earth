@@ -44,5 +44,38 @@ $('#btn-search').click(function renderMap(e) {
     <iframe class="map" width="100%" height="100%" frameborder="0" style="border:0"
     src="http://www.google.com/maps/embed/v1/search?key=AIzaSyBRjbBXmBByR-YaGaOMs7PAwS4SBmGIqzw&q=${locationMap}"allowfullscreen>
     </iframe>`
-})
+});
+
+// Matt's code
+$("#btn-temp").on("click", function() {
+   var latitude = $("#lat").val().trim();
+   var longitude = $("#long").val().trim();
+   var radius = $("#rad").val().trim();
+   var queryURL = "https://www.googleapis.com/youtube/v3/search?type=video&part=snippet&location=" + latitude + "," + longitude + "&locationRadius=" + radius + "miles&key=AIzaSyC3hyycsztOR8N1flGac1ocYQF1PGt6F6M";
+
+   $.ajax({
+   url: queryURL,
+   method: "GET"
+   })
+   
+   .then(function(response) {
+     var results = response.data;
+     console.log(response);
+     console.log(response.pageInfo.totalResults);
+     if (response.pageInfo.totalResults !== 0) {
+       for (var i = 0; i < response.items.length; i++) {             
+
+         console.log(response);
+         console.log(response.items[i].id.videoId);
+         
+         $(".cardThumb").html("<img src=" + response.items[i].snippet.thumbnails.high.url + ">");
+         $("#youtubeLink1").html("<a href='https://www.youtube.com/watch?v=" + response.items[i].id.videoId + "'>youtube link</a>");
+         $("#youtubeTitle1").html(response.items[i].snippet.title);
+         $("#videoIframe").html("<iframe width='420' height='315' src='https://www.youtube.com/embed/" + response.items[0].id.videoId + "' frameborder='0' allow='autoplay; encrypted-media' allowfullscreen></iframe>");
+       }
+     } else {
+         alert("no results!");
+       };
+     });
+   });
 

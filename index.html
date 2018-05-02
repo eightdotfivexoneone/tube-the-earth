@@ -18,7 +18,6 @@
   <div class="split left" id="map-section">
 
   </div>
-
   <div class="split right">
 
     <nav class="navbar navbar-dark bg-danger p-2">
@@ -28,13 +27,19 @@
       <form class="form-inline my-2 my-lg-0">
         <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Search Location" aria-label="Search">
         <button id="btn-search" class="btn btn-outline-light my-2 my-sm-0" type="submit">Tube</button>
+        <button id="btn-temp" class="btn btn-outline-light my-2 my-sm-0" type="button">Temp</button>
+        <input id="lat" type=text value="" placeholder="latitude">
+        <input id="long" type=text value="" placeholder="longitude">
+        <input id="rad" type=text value="" placeholder="radius (in miles)">
+
       </form>
+
     </nav>
     <div class="card bg-dark" style="width:100%">
       <div class="row mx-auto"></div>
       <div class="mx-auto">
 
-        <div class="videoWrapper">
+        <div class="videoWrapper" id="videoIframe">
           <iframe width="100%" src="https://www.youtube.com/embed/PN_us-YBMZM" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
         </div>
@@ -50,32 +55,40 @@
 
           <div class="container bg-dark">
             <div class="card bg-dark" style="width:100%">
-              <img class="card-img-top" src="resources/img/img1_DSF9340-HDR.jpg" alt="Card image" alt="Thumbnail">
+              <div class="cardThumb">
+              <img class="card-img-top" id="cardThumb1" src="resources/img/img1_DSF9340-HDR.jpg" alt="Card image" alt="Thumbnail">
+              </div>
               <div class="card-img-overlay">
-                <p class="card-text">Lorem ipsum dolor sit amet</p>
-                <a href="#" class="btn btn-danger">46.414382,10.013988</a>
+                <p class="card-text"><span id="youtubeTitle1">Lorem ipsum dolor sit amet</span></p>
+                <a href="#" id="youtubeLink1" class="btn btn-danger">46.414382,10.013988</a>
               </div>
             </div>
             <div class="card bg-dark" style="width:100%">
-              <img class="card-img-top" src="resources/img/IMG_7559.JPG" alt="Card image" alt="Thumbnail">
+                <div class="cardThumb">
+              <img class="card-img-top" id="cardThumb2" src="resources/img/IMG_7559.JPG" alt="Card image" alt="Thumbnail">
+              </div>
               <div class="card-img-overlay">
-                <p class="card-text">Pri ancillae epicurei et, stet ornatus ne mel, iusto fabellas mel in. </p>
-                <a href="#" class="btn btn-danger">46.414382,10.013988</a>
+                <p class="card-text"><span id="youtubeTitle2">Pri ancillae epicurei et, stet ornatus ne mel, iusto fabellas mel in.</span> </p>
+                <a href="#" id="youtubeLink2" class="btn btn-danger">46.414382,10.013988</a>
               </div>
             </div>
             <div class="card bg-dark" style="width:100%">
-              <img class="card-img-top" src="resources/img/img2_DSCF6619.JPG" alt="Card image" alt="Thumbnail">
+                <div class="cardThumb">
+              <img class="card-img-top" id="cardThumb3" src="resources/img/img2_DSCF6619.JPG" alt="Card image" alt="Thumbnail">
+              </div>
               <div class="card-img-overlay">
-                <p class="card-text">Mel graeci possim assueverit cu, an vim fugit omnes salutandi. Ea sale assum exerci quo, no lorem convenire
-                  cotidieque est.</p>
-                <a href="#" class="btn btn-danger">46.414382,10.013988</a>
+                <p class="card-text"><span id="youtubeTitle3">Mel graeci possim assueverit cu, an vim fugit omnes salutandi. Ea sale assum exerci quo, no lorem convenire
+                  cotidieque est.</span></p>
+                <a href="#" id="youtubeLink3" class="btn btn-danger">46.414382,10.013988</a>
               </div>
             </div>
             <div class="card bg-dark" style="width:100%">
-              <img class="card-img-top" src="resources/img/img3_DSF8751-HDR.jpg" alt="Card image" alt="Thumbnail">
+              <div class="cardThumb">
+                <img class="card-img-top" id="cardThumb4" src="resources/img/img3_DSF8751-HDR.jpg" alt="Card image" alt="Thumbnail">
+            </div>
               <div class="card-img-overlay">
-                <p class="card-text">Vix eros adolescens id, ei alii erat vitae nec.</p>
-                <a href="#" class="btn btn-danger">46.414382,10.013988</a>
+                <p class="card-text"><span id="youtubeTitle4">Vix eros adolescens id, ei alii erat vitae nec.</span></p>
+                <a href="#" id="youtubeLink4" class="btn btn-danger">46.414382,10.013988</a>
               </div>
             </div>
             <span>
@@ -118,8 +131,7 @@
       </script>
 
       <!-- Bootstrap related JS -->
-      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
