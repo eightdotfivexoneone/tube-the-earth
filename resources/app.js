@@ -47,6 +47,15 @@ $('#btn-search').click(function renderMap(e) {
 });
 
 // Matt's code
+$("#recently").on("click", function() {
+  $("#xyz").css("display", "none")
+  $("#recentDiv").css("display", "block")
+});
+  $("#history").on("click", function() {
+    $("#recentDiv").css("display", "none")
+    $("#xyz").css("display", "block")
+  });
+
 $("#btn-temp").on("click", function() {
    var latitude = $("#lat").val().trim();
    var longitude = $("#long").val().trim();
@@ -68,9 +77,9 @@ $("#btn-temp").on("click", function() {
          console.log(response);
          console.log(response.items[i].id.videoId);
          
-         $(".cardThumb").html("<img src=" + response.items[i].snippet.thumbnails.high.url + ">");
-         $("#youtubeLink1").html("<a href='https://www.youtube.com/watch?v=" + response.items[i].id.videoId + "'>youtube link</a>");
-         $("#youtubeTitle1").html(response.items[i].snippet.title);
+         $("#cardThumb" + [i]).html("<img class='card-img-top' src=" + response.items[i].snippet.thumbnails.high.url + "> ");
+         $("#youtubeLink" + [i]).html("<a href='https://www.youtube.com/watch?v=" + response.items[i].id.videoId + "'>" + response.items[i].snippet.channelTitle + "</a>");
+         $("#youtubeTitle" + [i]).html(response.items[i].snippet.title);
          $("#videoIframe").html("<iframe width='420' height='315' src='https://www.youtube.com/embed/" + response.items[0].id.videoId + "' frameborder='0' allow='autoplay; encrypted-media' allowfullscreen></iframe>");
        }
      } else {
