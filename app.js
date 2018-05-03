@@ -6,6 +6,7 @@
 var userAddress = "";
 var childrenArray = [];
 var thumbnail;
+var popularThumbnailArray = [];
 
 // Initialize Firebase
 var config = {
@@ -81,16 +82,11 @@ $(document).ready(function() {
             $("#user-results").append(userThumbnail);
         }
         
-        //CAN I CREATE A NEW ARRAY HERE TO HOLD THE LATEST 5 CHILDREN IN THE DATABASE??
-        //GRAB LOCATIONS FROM DATABASE (ALREADY DOING THAT BEFORE)
-        //MUST THEN CONVERT TO LAT/LONG
-        //DO I NEED 2 MORE AJAX CALLS FOR THIS??????????????????????????????????????????????????????
-
-        var popularSearchesArray = [];
+        var popularSearchesArray = []; //to hold last 5 children in database
         var query = firebase.database().ref().orderByKey(); //grabbing data from firebase
         query.once("value")
             .then(function(snapshot, childSnapshot) {
-                var length = snapshot.numChildren(); //grab # of children in database JUST SNAPSHOT????????????????????????
+                var length = snapshot.numChildren(); //grab # of children in database
                 snapshot.forEach(function(childSnapshot) { //for each child in database...
                     var popularSearchItem = childSnapshot.val(); //grab value
                     popularSearchesArray.push(popularSearchItem); //push each child to array
@@ -102,7 +98,7 @@ $(document).ready(function() {
                         'address': childSnapshot.val().userAddress,
                         'key': apiKeyH
                     });
-//ORGANIZE INTO FUNCTIONS!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//ORGANIZE INTO FUNCTIONS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     $.ajax({
                         url: urlH,
                         method: "GET"
@@ -116,7 +112,7 @@ $(document).ready(function() {
                             var popularLongString = popularLong.toString();
                             var popularLatLong = popularLatString + "," + popularLongString;
                             //console.log(latLongArray.length) //GENERATES ARRAY FOR EACH INDIVIDUAL ENTRY JUST WITH THAT ENTRY SO LENGTH IS 1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                                
+
                            //ANOTHER YOUTUBE AJAX CALL!
                             var apiKeyZ = "AIzaSyC3hyycsztOR8N1flGac1ocYQF1PGt6F6M";
                             var urlZ = "https://www.googleapis.com/youtube/v3/search";
@@ -137,7 +133,6 @@ $(document).ready(function() {
                             }).then (function(response) {
                                 //push thumbnail
                                 $("#popular-results").empty();
-                                var popularThumbnailArray = [];
                                 //for (var x=0; x<5; x++) { //pushing video thumbnail to page for each item already in array
                                     var popularThumbnailPath = response.items[0].snippet.thumbnails.default.url;
                                     var popularThumbnail = $("<img class='popular-thumbnail'>");
@@ -150,13 +145,12 @@ $(document).ready(function() {
                                     var numChildren = popularSearchesArray.length;
                                     console.log(numChildren); //works but doing 4 times for each location!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                                         if (numChildren < 6) {
-                                            $("#recent-searches").html(popularThumbnailArray.join(', ')); //push updated contents of array to page
+                                            $("#recent-searches").append(popularThumbnailArray); //push updated contents of array to page
                                         } else if (numChildren >= 6) {
                                             childrenArray.shift();
-                                            $("#recent-searches").html(popularThumbnailArray.join(', ')); //push updated contents of array to page
+                                            $("#recent-searches").append(popularThumbnailArray); //push updated contents of array to page
                                         }
-                                  //  }
-                                });
+                                }); //it's appending the array multiple times!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                             });
                         });
                     });
