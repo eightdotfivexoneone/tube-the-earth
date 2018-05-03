@@ -22,23 +22,27 @@ var database = firebase.database();
 
 $(document).ready(function() {
 
-          //when data in database changes...
-          database.ref().on("child_added", function(childSnapshot) { //each time another search is added to database...
-            console.log("before push childrenArray",childrenArray.join(', '))
-            childrenArray.push(childSnapshot.val().userAddress); //push the new location the user entered to childrenArray
-            console.log("after push childrenArray",childrenArray.join(', '))
-            var numChildren = childrenArray.length; //increment # of children by one
-            if (numChildren < 5) { //if there are fewer than 5 children in database...
-                $("#recent-searches").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
-            } else if (numChildren >= 5) {//otherwise, if there are 5+ children in database...  //NOT WORKING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                console.log("numchildren >= 5 childrenArray:",childrenArray.join(', '))
-                childrenArray.splice(0, 1, childSnapshot.val().userAddress); //replace oldest item in childrenArray with newest one
-                console.log("after splice childrenArray",childrenArray.join(', '))
-                $("#recent-searches").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
-            }
-    });
+//assign thumbnail AND video url to each of last 5 location search terms (for first object in array for that location search!!!!!!!) SO NOT THE SEARCH TERM ITSELF, BUT THE FIRST SEARCH RESULT FOR THAT LOCATION!!!!!!!!!!!!!!!!!
 
+    //when data in database changes...
+    database.ref().on("child_added", function(childSnapshot) { //each time another search is added to database...
+        childrenArray.push(/* thumbnail */childSnapshot.val().userAddress); //push the new location the user entered to childrenArray
+        var numChildren = childrenArray.length; //increment # of children by one
+        if (numChildren < 6) { //if there are fewer than 5 children in database...
+            $("#recent-searches").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
+        } else if (numChildren >= 6) {//otherwise, if there are 5+ children in database...
+            childrenArray.shift();
+            $("#recent-searches").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
+        }
+    }); //ONCE IT GETS TO 6 ITEMS, ADDS NEXT ITEM TO BOTH BEGINNING AND END
+    //africa asia ohio india (OLDEST) --> france asia ohio india france -- should be france africa asia ohio india SO ONLY ADD TO PLACE 4?
 
+/*   }).then (function(results) {
+        $("#popular").empty();
+        for (i=0; i<5; i++) { //pushing 5 location-specific video thumbnails to page
+            var thumbnailPath = results.items[i].snippet.thumbnails.default.url;
+            var thumbnail = $("<img class='thumbnail'>").attr("src", thumbnailPath);
+            $("#popular").append(thumbnail);  */
 
 $("#search-button").on("click", function() {
     userAddress = $("#search-field").val().trim(); // capturing user's entry in location field
@@ -49,7 +53,6 @@ $("#search-button").on("click", function() {
         userAddress: userAddress, //add jesse's var for location
         });
 
-    
     var apiKeyG = "AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU";
     var urlG = "https://maps.googleapis.com/maps/api/geocode/json";
     urlG = urlG + "?" + $.param({
@@ -65,7 +68,7 @@ $.ajax({
     (function(results) {
         
         var lat = results.results[0].geometry.location.lat;
-        var long = results.results[0].geometry.location.lng; //necessary to parse??
+        var long = results.results[0].geometry.location.lng;
 
 ///////////////////////////////////// YOUTUBE API DATA /////////////////////////////////
 
@@ -96,8 +99,5 @@ $.ajax({
         }
         });
     });
-        
-
-  
-    });
+});
 });
