@@ -5,6 +5,7 @@
 
 var userAddress = "";
 var childrenArray = [];
+var thumbnail;
 
 // Initialize Firebase
 var config = {
@@ -27,24 +28,18 @@ $(document).ready(function() {
     //when data in database changes...
     database.ref().on("child_added", function(childSnapshot) { //each time another search is added to database...
         childrenArray.push(/* thumbnail */childSnapshot.val().userAddress); //push the new location the user entered to childrenArray
-        var numChildren = childrenArray.length; //increment # of children by one
-        if (numChildren < 6) { //if there are fewer than 5 children in database...
+        var numChildren = childrenArray.length;
+        if (numChildren < 6) {
             $("#recent-searches").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
-        } else if (numChildren >= 6) {//otherwise, if there are 5+ children in database...
+        } else if (numChildren >= 6) {
             childrenArray.shift();
             $("#recent-searches").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
         }
-    }); //ONCE IT GETS TO 6 ITEMS, ADDS NEXT ITEM TO BOTH BEGINNING AND END
-    //africa asia ohio india (OLDEST) --> france asia ohio india france -- should be france africa asia ohio india SO ONLY ADD TO PLACE 4?
+    });
 
-/*   }).then (function(results) {
-        $("#popular").empty();
-        for (i=0; i<5; i++) { //pushing 5 location-specific video thumbnails to page
-            var thumbnailPath = results.items[i].snippet.thumbnails.default.url;
-            var thumbnail = $("<img class='thumbnail'>").attr("src", thumbnailPath);
-            $("#popular").append(thumbnail);  */
+//NEED AJAX CALL HERE SO THAT, ON REFRESH, THUMBNAILS FOR POPULAR SEARCHES ARE LOADED
 
-$("#search-button").on("click", function() {
+$("#search-button").on("click", function() { //SHOULD I SAVE FUNCTIONS GLOBALLY AND CALL THEM HERE???????????????????????????????????????????????????????????????????????????????????????
     userAddress = $("#search-field").val().trim(); // capturing user's entry in location field
     event.preventDefault();
 
@@ -91,11 +86,11 @@ $.ajax({
         url: urlY,
         method: "GET"
     }).then (function(results) {
-        $("#popular").empty();
+        $("#user-results").empty();
         for (i=0; i<5; i++) { //pushing 5 location-specific video thumbnails to page
-            var thumbnailPath = results.items[i].snippet.thumbnails.default.url;
-            var thumbnail = $("<img class='thumbnail'>").attr("src", thumbnailPath);
-            $("#popular").append(thumbnail);
+            var userThumbnailPath = results.items[i].snippet.thumbnails.default.url;
+            var userThumbnail = $("<img class='user-thumbnail'>").attr("src", userThumbnailPath);
+            $("#user-results").append(userThumbnail);
         }
         });
     });
