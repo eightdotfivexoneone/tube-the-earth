@@ -99,39 +99,33 @@ $(document).ready(function() {
                     var length = snapshot.numChildren(); //grab # of children in database JUST SNAPSHOT????????????????????????
                     popularSearchesArray.push(popularSearchItem); //push each child to array
 
-//JSON PARSE EACH CHILD SNAPSHOT LOCATION????
+                    //console.log(popularSearchItem)
+                    //var searchParsed = JSON.parse(popularSearchItem);
+                    var apiKeyH = "AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU";
+                    var urlH = "https://maps.googleapis.com/maps/api/geocode/json";
+                    urlH = urlH + "?" + $.param({
+                        'address': childSnapshot.val().userAddress,
+                        'key': apiKeyH
+                    });
 
+                    $.ajax({
+                        url: urlH,
+                        method: "GET"
+                    }).then
+                        (function(results) {                
+                            //console.log(results);
+                            var popularLat = results.results[0].geometry.location.lat;
+                            var popularLong = results.results[0].geometry.location.lng;
+                                var popularLatString = popularLat.toString();
+                                var popularLongString = popularLong.toString();
+                                var latLongArray = [];
+                                var popularLatLong = popularLatString + "," + popularLongString;                             
+                            });
+                            //NOW ANOTHER YOUTUBE AJAX CALL????????????????????????????? BUT HOW GET LAT/LONG THERE??????????????????????????
+                    //console.log(popularSearchesArray.length);
+    //                        for (var x=0; x<popularSearchesArray.length; x++) {
+                        //for each search item in database, convert to lat/long pair
 
-
-
-                var apiKeyH = "AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU";
-                var urlH = "https://maps.googleapis.com/maps/api/geocode/json";
-                urlH = urlH + "?" + $.param({
-                    'address': childSnapshot.val(),//??????????????????? I WANT DATA FROM DATABASE, NOT FROM USER'S SEARCH!!!!!!!!!!!!!!!!!!!!!!!!!!!! BUT DON'T WANT *ALL* ADDRESSES, JUST WANT ONE AT A TIME!!!!!!!!!!!!!!!!!!!!!!!
-                    'key': apiKeyH
-                });
-
-
-                $.ajax({
-                    url: urlH,
-                    method: "GET"
-                }).then
-                    (function(results) {                
-                        //console.log(results);
-                        var popularLat = results.results[0].geometry.location.lat;
-                        var popularLong = results.results[0].geometry.location.lng;
-                            var popularLatString = popularLat.toString();
-                            var popularLongString = popularLong.toString();
-                            var latLongArray = [];
-                            var popularLatLong = popularLatString + "," + popularLongString;                             
-                        });
-                        //NOW ANOTHER YOUTUBE AJAX CALL????????????????????????????? BUT HOW GET LAT/LONG THERE??????????????????????????
-                  //console.log(popularSearchesArray.length);
-//                        for (var x=0; x<popularSearchesArray.length; x++) {
-                    //for each search item in database, convert to lat/long pair
-
-                   //var popularLat = ;
-                    //var popularLong = ;
                     //latLongArray.push(___);
 
                     });
@@ -169,5 +163,9 @@ $(document).ready(function() {
 
 
     /*
-    https://maps.googleapis.com/maps/api/geocode/json?address%5B-LBbslOsDqarhYO3C8B8%5D%5BuserAddress%5D=asia&address%5B-LBbstzKOau4rwXXsu6X%5D%5BuserAddress%5D=oregon&address%5B-LBbsxfWEjHsnbRCcASN%5D%5BuserAddress%5D=arkansas&address%5B-LBbtkbQknMy_WdypQAY%5D%5BuserAddress%5D=alabama&address%5B-LBbtriZoevJAE_v6HTE%5D%5BuserAddress%5D=alaska&key=AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU
-    */
+
+https://maps.googleapis.com/maps/api/geocode/json?address%5BuserAddress%5D=OHIO&key=AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU
+    
+%5BuserAddress%5D
+
+*/
