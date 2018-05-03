@@ -24,7 +24,7 @@ $('#btn-search').click(function renderMap(e) {
 })
 
 
-// Dabbling with jQuery UI elements
+// Dabbling with jQuery UI
 $(document).ready(() => {
 
 $('.geo-recent-toggle').on('click', () => {
