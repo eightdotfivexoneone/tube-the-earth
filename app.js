@@ -90,10 +90,7 @@ $(document).ready(function() {
         var query = firebase.database().ref().orderByKey(); //grabbing data from firebase
         query.once("value")
             .then(function(snapshot, childSnapshot) {
-              
-              
-              
-              
+
                 snapshot.forEach(function(childSnapshot) { //for each child in database...
                     var popularSearchItem = childSnapshot.val(); //grab value
                     var length = snapshot.numChildren(); //grab # of children in database JUST SNAPSHOT????????????????????????
@@ -114,58 +111,61 @@ $(document).ready(function() {
                     }).then
                         (function(results) {                
                             //console.log(results);
+                            var latLongArray = [];
                             var popularLat = results.results[0].geometry.location.lat;
                             var popularLong = results.results[0].geometry.location.lng;
                                 var popularLatString = popularLat.toString();
                                 var popularLongString = popularLong.toString();
-                                var latLongArray = [];
-                                var popularLatLong = popularLatString + "," + popularLongString;                             
+                                var popularLatLong = popularLatString + "," + popularLongString;
+                                //latLongArray.push(popularLatLong);
+                                //console.log(popularLatLong);
+                            //console.log(latLongArray.length) //GENERATES ARRAY FOR EACH INDIVIDUAL ENTRY JUST WITH THAT ENTRY SO LENGTH IS 1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                
+                            //NOW ANOTHER YOUTUBE AJAX CALL????????????????
+                            
+
+                            var apiKeyZ = "AIzaSyC3hyycsztOR8N1flGac1ocYQF1PGt6F6M";
+                            var urlZ = "https://www.googleapis.com/youtube/v3/search";
+                            urlZ += "?" + $.param({
+                                'type': 'video',
+                                'maxResults': 1,
+                                'part': 'snippet',
+                                'videoEmbeddable': true,
+                                'location': popularLatLong,
+                                'locationRadius': '10mi',
+                                'key': apiKeyZ,
+                                'chart': 'mostPopular'
                             });
-                            //NOW ANOTHER YOUTUBE AJAX CALL????????????????????????????? BUT HOW GET LAT/LONG THERE??????????????????????????
-                    //console.log(popularSearchesArray.length);
-    //                        for (var x=0; x<popularSearchesArray.length; x++) {
-                        //for each search item in database, convert to lat/long pair
-
-                    //latLongArray.push(___);
-
+                        
+                            $.ajax({
+                                url: urlZ,
+                                method: "GET"
+                            }).then (function(response) {
+                                //push thumbnail
+                                $("#popular-results").empty();
+                                for (var x=0; x<5; x++) { //pushing video thumbnail to page for each item already in array
+                                    var popularThumbnailPath = response.items[0].snippet.thumbnails.default.url;
+                                    var popularThumbnail = $("<img class='popular-thumbnail'>").attr("src", popularThumbnailPath);
+                                    $("#popular-results").append(popularThumbnail);
+                                    var numChildren = popularSearchesArray.length;
+                                        if (numChildren < 6) {
+                                            $("#recent-searches").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
+                                        } else if (numChildren >= 6) {
+                                            childrenArray.shift();
+                                            $("#recent-searches").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
+                                        }
+                                    }
+                                });
+                            });
+                        });
                     });
-
-
-                //push thumbnail
-                var numChildren = popularSearchesArray.length;
-                if (numChildren < 6) {
-                    $("#recent-searches").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
-                } else if (numChildren >= 6) {
-                    childrenArray.shift();
-                    $("#recent-searches").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
-                }
-        
+                });
             });
-            //console.log("this works");
         });
+    });
 
-
-//results.results[0].geometry.location.lat
 
 /*
-        $("#popular-results").empty();
-        for (var x=0; x<5; x++) { //pushing video thumbnail to page for each item already in array
-            var popularThumbnailPath = results.items[0].snippet.thumbnails.default.url;
-            var popularThumbnail = $("<img class='popular-thumbnail'>").attr("src", popularThumbnailPath);
-            $("#popular-results").append(popularThumbnail);
-        }
-  
-*/
-
-    });
-        });
-    });
-
-
-    /*
-
-https://maps.googleapis.com/maps/api/geocode/json?address%5BuserAddress%5D=OHIO&key=AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU
-    
-%5BuserAddress%5D
-
+        
+           
 */
