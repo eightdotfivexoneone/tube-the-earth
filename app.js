@@ -114,16 +114,12 @@ $(document).ready(function() {
                             var latLongArray = [];
                             var popularLat = results.results[0].geometry.location.lat;
                             var popularLong = results.results[0].geometry.location.lng;
-                                var popularLatString = popularLat.toString();
-                                var popularLongString = popularLong.toString();
-                                var popularLatLong = popularLatString + "," + popularLongString;
-                                //latLongArray.push(popularLatLong);
-                                //console.log(popularLatLong);
+                            var popularLatString = popularLat.toString();
+                            var popularLongString = popularLong.toString();
+                            var popularLatLong = popularLatString + "," + popularLongString;
                             //console.log(latLongArray.length) //GENERATES ARRAY FOR EACH INDIVIDUAL ENTRY JUST WITH THAT ENTRY SO LENGTH IS 1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                                 
-                            //NOW ANOTHER YOUTUBE AJAX CALL????????????????
-                            
-
+                           //ANOTHER YOUTUBE AJAX CALL!
                             var apiKeyZ = "AIzaSyC3hyycsztOR8N1flGac1ocYQF1PGt6F6M";
                             var urlZ = "https://www.googleapis.com/youtube/v3/search";
                             urlZ += "?" + $.param({
@@ -143,16 +139,19 @@ $(document).ready(function() {
                             }).then (function(response) {
                                 //push thumbnail
                                 $("#popular-results").empty();
+                                var popularThumbnailArray = [];
                                 for (var x=0; x<5; x++) { //pushing video thumbnail to page for each item already in array
                                     var popularThumbnailPath = response.items[0].snippet.thumbnails.default.url;
                                     var popularThumbnail = $("<img class='popular-thumbnail'>").attr("src", popularThumbnailPath);
+                                    console.log(popularThumbnailPath);
                                     $("#popular-results").append(popularThumbnail);
                                     var numChildren = popularSearchesArray.length;
+                                    console.log(numChildren); //works but doing 4 times
                                         if (numChildren < 6) {
-                                            $("#recent-searches").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
+                                            $("#recent-searches").html(popularThumbnailArray.join(', ')); //push updated contents of childrenArray to page
                                         } else if (numChildren >= 6) {
                                             childrenArray.shift();
-                                            $("#recent-searches").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
+                                            $("#recent-searches").html(popularThumbnailArray.join(', ')); //push updated contents of childrenArray to page
                                         }
                                     }
                                 });
