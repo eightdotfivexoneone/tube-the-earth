@@ -22,48 +22,46 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 $(document).ready(function() {
+    //when data in database changes, and on page load...
+    database.ref().on("child_added", function(childSnapshot) {
+                
+        //each time another search is added to database... STILL NEED THIS PART TO PUSH NEW ITEMS TO DATABASE AS THEY'RE ADDED!!!!!!!!!!!!!!!!!!!!!! BUT 
+        //childrenArray.push(childSnapshot.val().userAddress); //push the new location the user entered to childrenArray
 
-//assign thumbnail AND video url to each of last 5 location search terms (for first object in array for that location search!!!!!!!) SO NOT THE SEARCH TERM ITSELF, BUT THE FIRST SEARCH RESULT FOR THAT LOCATION!!!!!!!!!!!!!!!!!
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    //when data in database changes...
-    database.ref().on("child_added", function(childSnapshot) { //each time another search is added to database...
-        childrenArray.push(/* thumbnail */childSnapshot.val().userAddress); //push the new location the user entered to childrenArray
-        var numChildren = childrenArray.length;
-        if (numChildren < 6) {
-            $("#recent-searches").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
-        } else if (numChildren >= 6) {
-            childrenArray.shift();
-            $("#recent-searches").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
-        }
+
+//FOR ANY LOCATION IN DATABASE, ASSIGN LAT/LONG
+//can't do globally because need ajax call
+//can't do inside other ajax call because need the info to be available before click event, and because can't reference childArray in that scope? COULD I JUST CREATE A NEW ARRAY THERE????
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+console.log("wtf")
     });
 
-//NEED AJAX CALL HERE SO THAT, ON REFRESH, THUMBNAILS FOR POPULAR SEARCHES ARE LOADED
-
-$("#search-button").on("click", function() { //SHOULD I SAVE FUNCTIONS GLOBALLY AND CALL THEM HERE???????????????????????????????????????????????????????????????????????????????????????
-    userAddress = $("#search-field").val().trim(); // capturing user's entry in location field
-    event.preventDefault();
-
+        $("#search-button").on("click", function() {
+            userAddress = $("#search-field").val().trim(); // capturing user's entry in location field
+            event.preventDefault();
 //push data to firebase
-    database.ref().push({
-        userAddress: userAddress, //add jesse's var for location
-        });
+            database.ref().push({
+                userAddress: userAddress, //add jesse's var for location
+            });
 
-    var apiKeyG = "AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU";
-    var urlG = "https://maps.googleapis.com/maps/api/geocode/json";
-    urlG = urlG + "?" + $.param({
-        'address': userAddress,
-        'key': apiKeyG
-    });
+            var apiKeyG = "AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU";
+            var urlG = "https://maps.googleapis.com/maps/api/geocode/json";
+            urlG = urlG + "?" + $.param({
+                'address': userAddress,
+                'key': apiKeyG
+            });
 
-$.ajax({
-    url: urlG,
-    method: "GET"
-}).then
-
-    (function(results) {
-        
-        var lat = results.results[0].geometry.location.lat;
-        var long = results.results[0].geometry.location.lng;
+            $.ajax({
+                url: urlG,
+                method: "GET"
+                }).then
+                (function(results) { //****************** */
+                    var lat = results.results[0].geometry.location.lat;
+                    var long = results.results[0].geometry.location.lng;
 
 ///////////////////////////////////// YOUTUBE API DATA /////////////////////////////////
 
@@ -87,12 +85,53 @@ $.ajax({
         method: "GET"
     }).then (function(results) {
         $("#user-results").empty();
-        for (i=0; i<5; i++) { //pushing 5 location-specific video thumbnails to page
+        for (var i=0; i<5; i++) { //pushing 5 location-specific video thumbnails to page
             var userThumbnailPath = results.items[i].snippet.thumbnails.default.url;
             var userThumbnail = $("<img class='user-thumbnail'>").attr("src", userThumbnailPath);
             $("#user-results").append(userThumbnail);
         }
+        
+        //CAN I CREATE A NEW ARRAY HERE TO HOLD THE LATEST 5 CHILDREN IN THE DATABASE??
+        //GRAB LOCATIONS FROM DATABASE (ALREADY DOING THAT BEFORE)
+        //MUST THEN CONVERT TO LAT/LONG
+        //DO I NEED 2 MORE AJAX CALLS FOR THIS??????????????????????????????????????????????????????
+
+        var popularSearchesArray = [];
+        var query = firebase.database().ref().orderByKey(); //grabbing data from firebase
+        query.once("value")
+            .then(function(snapshot) {
+                snapshot.forEach(function(childSnapshot) { //grab value of each child item in database 
+                var popularSearchItem = childSnapshot.val();
+                console.log(popularSearchItem);
+                var length = snapshot.numChildren();
+                console.log(length);
+                popularSearchesArray.push(popularSearchItem);
+                //convert to lat-long
+                //push thumbnail
+                var numChildren = popularSearchesArray.length;
+                if (numChildren < 6) {
+                    $("#recent-searches").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
+                } else if (numChildren >= 6) {
+                    childrenArray.shift();
+                    $("#recent-searches").html(childrenArray.join(', ')); //push updated contents of childrenArray to page
+                }
+        
+            });
+            //console.log("this works");
+        });
+
+
+/*
+        $("#popular-results").empty();
+        for (var x=0; x<5; x++) { //pushing video thumbnail to page for each item already in array
+            var popularThumbnailPath = results.items[0].snippet.thumbnails.default.url;
+            var popularThumbnail = $("<img class='popular-thumbnail'>").attr("src", popularThumbnailPath);
+            $("#popular-results").append(popularThumbnail);
+        }
+  
+*/
+
+    });
         });
     });
-});
-});
+    });
