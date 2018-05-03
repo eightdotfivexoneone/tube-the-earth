@@ -39,54 +39,66 @@
 
         </div>
         <div class="row">
-          <ul class="nav nav-pills mx-auto" style="width:100%">
-            <li class="nav-item">
-              <a class="nav-link bg-secondary text-light m-2" href="#">Recently Uploaded From This Location</a>
+          <ul class="nav nav-pills mx-3" style="width:100%">
+              <li class="geo-recent-toggle nav-item">
+                  <a class="nav-link text-light bg-danger m-2" href="#">Recently Uploaded From This Loction</a>
+              </li>
+            <li class="firebase-toggle nav-item">
+              <a class="nav-link text-light bg-secondary m-2" href="#">Firebase Thing</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link text-dark bg-danger  m-2" href="#">Viewing History</a>
-            </li>
-          </ul>
+
+        </ul>
 
           <div class="container bg-dark">
-            <div class="card bg-dark" style="width:100%">
-              <img class="card-img-top" src="resources/img/img1_DSF9340-HDR.jpg" alt="Card image" alt="Thumbnail">
-              <div class="card-img-overlay">
-                <p class="card-text">Lorem ipsum dolor sit amet</p>
-                <a href="#" class="btn btn-danger">46.414382,10.013988</a>
-              </div>
-            </div>
-            <div class="card bg-dark" style="width:100%">
-              <img class="card-img-top" src="resources/img/IMG_7559.JPG" alt="Card image" alt="Thumbnail">
-              <div class="card-img-overlay">
-                <p class="card-text">Pri ancillae epicurei et, stet ornatus ne mel, iusto fabellas mel in. </p>
-                <a href="#" class="btn btn-danger">46.414382,10.013988</a>
-              </div>
-            </div>
-            <div class="card bg-dark" style="width:100%">
-              <img class="card-img-top" src="resources/img/img2_DSCF6619.JPG" alt="Card image" alt="Thumbnail">
-              <div class="card-img-overlay">
-                <p class="card-text">Mel graeci possim assueverit cu, an vim fugit omnes salutandi. Ea sale assum exerci quo, no lorem convenire
-                  cotidieque est.</p>
-                <a href="#" class="btn btn-danger">46.414382,10.013988</a>
-              </div>
-            </div>
-            <div class="card bg-dark" style="width:100%">
-              <img class="card-img-top" src="resources/img/img3_DSF8751-HDR.jpg" alt="Card image" alt="Thumbnail">
-              <div class="card-img-overlay">
-                <p class="card-text">Vix eros adolescens id, ei alii erat vitae nec.</p>
-                <a href="#" class="btn btn-danger">46.414382,10.013988</a>
-              </div>
-            </div>
-            
+                <div class="geo-recent card bg-dark" style="width:100%">
+                  <img class="card-img-top" src="resources/img/img2_DSCF6619.JPG" alt="Card image" alt="Thumbnail">
+                  <div class="card-img-overlay">
+                    <p class="card-text">Geo-Recent:<br>Mel graeci possim assueverit cu, an vim fugit omnes salutandi. Ea sale assum exerci quo, no lorem convenire
+                      cotidieque est.</p>
+                    <a href="#" class="btn btn-danger">46.414382,10.013988</a>
+                  </div>
+                </div>
+                
+                <div class="geo-recent card bg-dark" style="width:100%">
+                  <img class="card-img-top" src="resources/img/img3_DSF8751-HDR.jpg" alt="Card image" alt="Thumbnail">
+                  <div class="card-img-overlay">
+                    <p class="card-text">Geo-Recent:<br>Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. </p>
+                    <a href="#" class="btn btn-danger">46.414382,10.013988</a>
+                  </div>
+                </div>
+
+                <div class="firebase card bg-dark" style="width:100%">
+                  <img class="card-img-top" src="resources/img/img1_DSF9340-HDR.jpg" alt="Card image" alt="Thumbnail">
+                  <div class="card-img-overlay">
+                    <p class="card-text">More Results:<br>Lorem ipsum dolor sit amet</p>
+                    <a href="#" class="btn btn-secondary">46.414382,10.013988</a>
+                  </div>
+                </div>
+                
+                <div class="firebase card bg-dark" style="width:100%">
+                  <img class="card-img-top" src="resources/img/IMG_7559.JPG" alt="Card image" alt="Thumbnail">
+                  <div class="card-img-overlay">
+                    <p class="card-text">More Results:<br>Pri ancillae epicurei et, stet ornatus ne mel, iusto fabellas mel in. </p>
+                    <a href="#" class="btn btn-secondary">46.414382,10.013988</a>
+                  </div>
+                </div>
+ 
+                <div class="card bg-dark" style="width:100%">
+                  <img class="card-img-top" src="resources/img/youtube image.png" alt="Card image" alt="Thumbnail">
+                  <div class="card-img-overlay">
+                    <p class="card-text"></p>
+                  </div>
+                </div>
             
           </div>
         </div>
       </div>
 
-
-
-
+      <!-- jQuery -->
+      <script
+      src="https://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous"></script>
 
       <!-- Firebase -->
       <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
@@ -112,6 +124,8 @@
         crossorigin="anonymous"></script>
 
       <script src="resources/app.js"></script>
+
+
 </body>
 
 </html>
