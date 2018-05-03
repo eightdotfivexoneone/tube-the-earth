@@ -90,12 +90,10 @@ $(document).ready(function() {
         var query = firebase.database().ref().orderByKey(); //grabbing data from firebase
         query.once("value")
             .then(function(snapshot, childSnapshot) {
-
+                var length = snapshot.numChildren(); //grab # of children in database JUST SNAPSHOT????????????????????????
                 snapshot.forEach(function(childSnapshot) { //for each child in database...
                     var popularSearchItem = childSnapshot.val(); //grab value
-                    var length = snapshot.numChildren(); //grab # of children in database JUST SNAPSHOT????????????????????????
                     popularSearchesArray.push(popularSearchItem); //push each child to array
-
                     //console.log(popularSearchItem)
                     //var searchParsed = JSON.parse(popularSearchItem);
                     var apiKeyH = "AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU";
@@ -104,7 +102,7 @@ $(document).ready(function() {
                         'address': childSnapshot.val().userAddress,
                         'key': apiKeyH
                     });
-
+//ORGANIZE INTO FUNCTIONS!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     $.ajax({
                         url: urlH,
                         method: "GET"
@@ -140,20 +138,24 @@ $(document).ready(function() {
                                 //push thumbnail
                                 $("#popular-results").empty();
                                 var popularThumbnailArray = [];
-                                for (var x=0; x<5; x++) { //pushing video thumbnail to page for each item already in array
+                                //for (var x=0; x<5; x++) { //pushing video thumbnail to page for each item already in array
                                     var popularThumbnailPath = response.items[0].snippet.thumbnails.default.url;
-                                    var popularThumbnail = $("<img class='popular-thumbnail'>").attr("src", popularThumbnailPath);
-                                    console.log(popularThumbnailPath);
+                                    var popularThumbnail = $("<img class='popular-thumbnail'>");
+                                    popularThumbnail.attr("src", popularThumbnailPath);
+                                    console.log(popularThumbnail);
+                                    popularThumbnailArray.push(popularThumbnail);
+                                    //console.log(popularThumbnailPath); //works but showing 4 times for each location!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! (GENERATING WHOLE ARRAY ONCE, REPEATED FOR EACH ITEM IN DATABASE SO 4X!!!!!)
                                     $("#popular-results").append(popularThumbnail);
+                                    console.log(popularThumbnail);
                                     var numChildren = popularSearchesArray.length;
-                                    console.log(numChildren); //works but doing 4 times
+                                    console.log(numChildren); //works but doing 4 times for each location!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                                         if (numChildren < 6) {
-                                            $("#recent-searches").html(popularThumbnailArray.join(', ')); //push updated contents of childrenArray to page
+                                            $("#recent-searches").html(popularThumbnailArray.join(', ')); //push updated contents of array to page
                                         } else if (numChildren >= 6) {
                                             childrenArray.shift();
-                                            $("#recent-searches").html(popularThumbnailArray.join(', ')); //push updated contents of childrenArray to page
+                                            $("#recent-searches").html(popularThumbnailArray.join(', ')); //push updated contents of array to page
                                         }
-                                    }
+                                  //  }
                                 });
                             });
                         });
