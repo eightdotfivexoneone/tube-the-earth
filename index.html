@@ -23,32 +23,35 @@
 
             <div class="split right">
           
-              <nav class="navbar navbar-dark bg-danger p-2">
+              <nav class="navbar navbar-dark bg-danger p-3">
                 <a class="navbar-brand" href="#">
                   <b>Tube The Earth</b>
                 </a>
-                <!-- <form class="form-inline my-2 my-lg-0">
-                  <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Search Location" aria-label="Search">
-                  <button id="btn-search" class="btn btn-outline-light my-2 my-sm-0" type="submit">Tube</button>
-                </form> -->
-                <form class="form-inline my-2 my-lg-0">  
-                  <div id="floating-panel">
-                    <input id="address" type="textbox" placeholder="Portsmouth, NH">
-                    <input id="submit" class="btn btn-outline-light my-2 my-sm-0" type="button" value="Geocode">
+              <div>
+                <div class="column input-group search-nav">
+                  <form class="form-inline">  
+                    <div class="input-group mb-3" id="floating-panel">
+                      <input id="address" type="textbox"
+                        class="form-control w-75 p-2"
+                        placeholder="Search By Location">
+                      <input id="submit" class="btn btn-outline-light w-25" type="button" value="Tube">
+                    <div class="row">
+                    <form class="form-inline">
                   </div>
+                    <div class="row  mt-1">
+                      <h6 class="colsmall mx-3 my-1">Radius (in miles)</h6>
+                      <select id="rad" name="radius" CLASS="small">
+                        <option value="1">1</option>
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="50">50</option>
+                      </select>
+                    </div>
+                  </form>
                 </form>
-                  <!-- <button id="btn-temp" class="btn btn-outline-light my-2 my-sm-0" type="button">Temp</button>
-                  <input id="lat" type=text value="" placeholder="latitude">
-                  <input id="long" type=text value="" placeholder="longitude"> -->
-                  <form class="form-inline my-2 my-lg-0">
-                    <h5>Search Radius (in miles)</h5>
-                    <select id="rad" name="radius">
-                      <option value="1">1</option>
-                      <option value="5">5</option>
-                      <option value="10" selected>10</option>
-                      <option value="50">50</option>
-                    </select>
-                </form>
+        </div>
+</div>
+ 
               </nav>
               <div class="card bg-dark" style="width:100%">
                 <div class="row mx-auto"></div>
