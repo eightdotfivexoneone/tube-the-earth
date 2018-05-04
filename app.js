@@ -90,7 +90,7 @@ $(document).ready(function() {
                 snapshot.forEach(function(childSnapshot) { //for each child in database...
                     var popularSearchItem = childSnapshot.val(); //grab value
                     popularSearchesArray.push(popularSearchItem); //push each child to array
-                    
+                    console.log(popularSearchesArray);
                     var apiKeyH = "AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU";
                     var urlH = "https://maps.googleapis.com/maps/api/geocode/json";
                     urlH = urlH + "?" + $.param({
@@ -103,7 +103,6 @@ $(document).ready(function() {
                         method: "GET"
                     }).then
                         (function(results) {                
-                            //var latLongArray = [];
                             var popularLat = results.results[0].geometry.location.lat;
                             var popularLong = results.results[0].geometry.location.lng;
                             var popularLatString = popularLat.toString();
@@ -128,27 +127,22 @@ $(document).ready(function() {
                             $.ajax({
                                 url: urlZ,
                                 method: "GET"
-                            }).then (function(response) {
-                                $("#recent-searches").empty();
-                                //push thumbnail to page
+                            }).then (function(response) { //push thumbnail to page
+                                    $("#recent-searches").empty();
                                     var popularThumbnailPath = response.items[0].snippet.thumbnails.default.url;
                                     var popularThumbnail = $("<img class='popular-thumbnail'>");
                                     popularThumbnail.attr("src", popularThumbnailPath);
-                                    //console.log(popularThumbnail);
-                                    //console.log(popularThumbnailPath); //works but showing 4 times for each location!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! (GENERATING WHOLE ARRAY ONCE, REPEATED FOR EACH ITEM IN DATABASE SO 4X!!!!!)
+                                    //console.log(popularThumbnailPath);
                                     //$("#popular-results").append(popularThumbnail);
-                                    //console.log(popularThumbnail);
                                     popularThumbnailArray.push(popularThumbnail);
                                     var numChildren = popularSearchesArray.length;
-                                    //$("#recent-searches").empty();
-                                    //console.log(numChildren); //works but doing 4 times for each location!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                    console.log(numChildren); //works but doing x times for each location (x = # of children!!!!!!!!!!!!!!!1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                                         if (numChildren < 6) {
                                             $("#recent-searches").html(popularThumbnailArray); //push updated contents of array to page
                                         } else if (numChildren >= 6) {
                                             popularThumbnailArray.shift();
                                             $("#recent-searches").html(popularThumbnailArray); //push updated contents of array to page
                                         }
-                                        //$("#recent-searches").html(popularThumbnailArray);
                                 }); //it's appending the array multiple times!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! once 
                             });
                         });
@@ -160,6 +154,7 @@ $(document).ready(function() {
 
 
 /*
-        
+    
+snapshot.forEach(function(childSnapshot) {
            
 */
