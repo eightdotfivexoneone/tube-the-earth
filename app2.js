@@ -10,7 +10,7 @@ $(document).ready(function() {
     var popularSearchesArray = [];
     var userAddress = "";
     var urlGoogle = "https://maps.googleapis.com/maps/api/geocode/json";
-    var apiKeyGoogle = "AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU";
+    var apiKeyGoogle = "AIzaSyCXz3ctOfdCYgcEHTokEyM5Dso_kiMJDeY";
     var urlYoutube = "https://www.googleapis.com/youtube/v3/search";
     var apiKeyYoutube = "AIzaSyC3hyycsztOR8N1flGac1ocYQF1PGt6F6M";
 
