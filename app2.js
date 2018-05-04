@@ -57,25 +57,26 @@ database.ref().on("child_added", function(snapshot) {
 //grab thumbnail
 //push to array
 //print updated array to page
-//var allSnapshotData = snapshot.val().userAddress;
-//console.log(allSnapshotData); //lists all userAddress items in database, and new ones as they're added
 
     function loadFromDatabase(snapshot) {
         snapshot.forEach(function(childSnapshot) { //for each child in database...
             var popularSearchItem = childSnapshot.val(); //grab value
             //console.log(popularSearchItem)
-            popularSearchesArray.push(popularSearchItem); //push each child's value to array
-
+            popularSearchesArray.push(popularSearchItem); //push each child's value to array)
             //console.log(popularSearchesArray) should it be reprinting multiple times???????????????????????
 
-            urlGoogle += "?" + $.param({ //convert each location in database to lat/long; modify URL lookup for each item in database
+            var newURL = urlGoogle;
+            newURL += "?" + $.param({ //convert each location in database to lat/long; modify URL lookup for each item in database
                 'address': popularSearchItem,
                 'key': apiKeyGoogle
             });
-            mapsAjax(urlGoogle) //call to google maps API to grab data for each item in database
+            console.log("newURL: ",newURL);
+            //console.log("urlGoogle: ",urlGoogle);
+
+            mapsAjax(newURL) //call to google maps API to grab data for each item in database
             .then (function(results) {
-                console.log(results.results[0].geometry)
-                var lat = results.results[0].geometry.location.lat; //issue with "geometry" even though lat and long are recognized in console
+                console.log(results.results[0])
+                var lat = results.results[0].geometry.location.lat;
                 var long = results.results[0].geometry.location.lng;
                 urlYoutube += "?" + $.param({ //modify youtube API url for each location item in database
                     'type': 'video',
@@ -120,20 +121,19 @@ database.ref().on("child_added", function(snapshot) {
 $("#search-button").on("click", function() {
     userAddress = $("#search-field").val().trim();
     event.preventDefault();
-console.log("hi")
+
     function saveSearch() {
         database.ref().push({
             userAddress: userAddress, //save each new location entered by user to database
         });
 
-        urlGoogle += "?" + $.param({ //convert each location in database to lat/long; modify URL for each location item in database
+        urlGoogle += "?" + $.param({ 
             'address': userAddress,
             'key': apiKeyGoogle
         });
-    
-        mapsAjax(urlGoogle)
+
+        mapsAjax(urlGoogle) //convert each location in database to lat/long; modify URL for each location item in database
         .then (function(results) {
-            console.log(results)
             var lat = results.results[0].geometry.location.lat; //grab lat/long for user's entry
             var long = results.results[0].geometry.location.lng;
         
