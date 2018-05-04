@@ -127,8 +127,9 @@ $(document).ready(function() {
                             $.ajax({
                                 url: urlZ,
                                 method: "GET"
-                            }).then (function(response) { //push thumbnail to page
-                                    $("#recent-searches").empty();
+                            }).then (function(response) {
+//                                $("#recent-searches").empty();
+                                //push thumbnail to page
                                     var popularThumbnailPath = response.items[0].snippet.thumbnails.default.url;
                                     var popularThumbnail = $("<img class='popular-thumbnail'>");
                                     popularThumbnail.attr("src", popularThumbnailPath);
@@ -138,6 +139,7 @@ $(document).ready(function() {
                                     var numChildren = popularSearchesArray.length;
                                     console.log(numChildren); //works but doing x times for each location (x = # of children!!!!!!!!!!!!!!!1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                                         if (numChildren < 6) {
+                                            $("#recent-searches").empty();
                                             $("#recent-searches").html(popularThumbnailArray); //push updated contents of array to page
                                         } else if (numChildren >= 6) {
                                             popularThumbnailArray.shift();
