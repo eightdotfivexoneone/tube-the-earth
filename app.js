@@ -23,14 +23,24 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 $(document).ready(function() {
-    //when data in database changes, and on page load...
+    
+    var popularSearchesArray = []; //to hold last 5 children in database
+
+//empty array (DONE)
+//fill with stuff from database (DONE)
+//on click, save to database (FOR EACH?)
+//push to popular searches array as soon as it's added, don't re-query later
+//on page load, for each loops, push everything in database to array
+//then, every time added to database, push to array
+
+
     database.ref().on("child_added", function(childSnapshot) {
-                
-        childrenArray.push(childSnapshot.val().userAddress); //push the new location the user entered to childrenArray
-//BUT DON'T WANT THIS PRINTED TO PAGE, JUST ADDED TO ARRAY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        childrenArray.push(childSnapshot.val().userAddress);
     });
 
         $("#search-button").on("click", function() {
+            
+            console.log(popularSearchesArray);
             userAddress = $("#search-field").val().trim(); // capturing user's entry in location field
             event.preventDefault();
 
@@ -38,6 +48,8 @@ $(document).ready(function() {
             database.ref().push({
                 userAddress: userAddress, //add jesse's var for location
             });
+
+            //push to array here????
 
             var apiKeyG = "AIzaSyC38jvNaBiOYkmKPDHFXLYcOpdcJIqJ7PU";
             var urlG = "https://maps.googleapis.com/maps/api/geocode/json";
@@ -82,11 +94,14 @@ $(document).ready(function() {
             $("#user-results").append(userThumbnail);
         }
         
-        var popularSearchesArray = []; //to hold last 5 children in database
         var query = firebase.database().ref().orderByKey(); //grabbing data from firebase
+    
+
         query.once("value")
             .then(function(snapshot, childSnapshot) {
+
                 var length = snapshot.numChildren(); //grab # of children in database
+      
                 snapshot.forEach(function(childSnapshot) { //for each child in database...
                     var popularSearchItem = childSnapshot.val(); //grab value
                     popularSearchesArray.push(popularSearchItem); //push each child to array
@@ -97,7 +112,8 @@ $(document).ready(function() {
                         'address': childSnapshot.val().userAddress,
                         'key': apiKeyH
                     });
-//ORGANIZE INTO FUNCTIONS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+                    //ORGANIZE INTO FUNCTIONS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     $.ajax({
                         url: urlH,
                         method: "GET"
@@ -128,7 +144,7 @@ $(document).ready(function() {
                                 url: urlZ,
                                 method: "GET"
                             }).then (function(response) {
-//                                $("#recent-searches").empty();
+                                $("#recent-searches").empty();
                                 //push thumbnail to page
                                     var popularThumbnailPath = response.items[0].snippet.thumbnails.default.url;
                                     var popularThumbnail = $("<img class='popular-thumbnail'>");
@@ -138,14 +154,13 @@ $(document).ready(function() {
                                     popularThumbnailArray.push(popularThumbnail);
                                     var numChildren = popularSearchesArray.length;
                                     console.log(numChildren); //works but doing x times for each location (x = # of children!!!!!!!!!!!!!!!1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                                        if (numChildren < 6) {
-                                            $("#recent-searches").empty();
-                                            $("#recent-searches").html(popularThumbnailArray); //push updated contents of array to page
-                                        } else if (numChildren >= 6) {
+                                        if (numChildren >= 6) {
                                             popularThumbnailArray.shift();
-                                            $("#recent-searches").html(popularThumbnailArray); //push updated contents of array to page
                                         }
-                                }); //it's appending the array multiple times!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! once 
+ 
+                                        $("#recent-searches").html(popularThumbnailArray); //push updated contents of array to page    
+                                        
+                                }); //it's appending the array to the div multiple times!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                             });
                         });
                     });
