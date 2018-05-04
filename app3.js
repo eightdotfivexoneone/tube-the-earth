@@ -56,7 +56,7 @@ function mapsAjax(address, urlGoogle) {
         }
         });
     }
-});
+
 
 
 function youtubeAjax(urlYoutube) {

@@ -48,20 +48,19 @@ $(document).ready(function() {
                 reject('no geocoder');
             }
         });
-
+    };
 
 //        return $.ajax({
 //            url: urlGoogle,
 //            method: "GET"
 //        })
-    }
     
     function youtubeAjax(urlYoutube) {
         return $.ajax({
             url: urlYoutube,
             method: "GET"
         })
-    }
+    };
     
     var geocoder = new google.maps.Geocoder();
     
@@ -83,7 +82,7 @@ $(document).ready(function() {
 //            $("#recent-searches").empty();
             snapshot.forEach(function(childSnapshot) { //for each child in database...
                 var popularSearchItem = childSnapshot.val(); //grab value
-                console.log(popularSearchItem)
+                //console.log(popularSearchItem)
                 
                 var newMapsURL = urlGoogle;
                 newMapsURL += "?" + $.param({ //convert each location in database to lat/long; modify URL lookup for each item in database
@@ -96,7 +95,7 @@ $(document).ready(function() {
                 .then (function(results) {
                     var lat = results.lat;
                     var long = results.lng;
-                    console.log(lat + "," + long) //correct
+                    //console.log(lat + "," + long) //correct
                     
                     var newYoutubeURL = urlYoutube;
                     newYoutubeURL += "?" + $.param({ //modify youtube API url for each location item in database
@@ -109,18 +108,18 @@ $(document).ready(function() {
                         'key': apiKeyYoutube,
                         'chart': 'mostPopular'
                     })
-                    console.log(newYoutubeURL) //correct
+                    //console.log(newYoutubeURL) //correct
                     youtubeAjax(newYoutubeURL) //call to youtube api to grab data for each item in database
                     .then (function(response) {
-                        console.log(response)
+                        //console.log(response)
                         popularThumbnailPath = response.items[0].snippet.thumbnails.default.url;
-                        console.log(popularThumbnailPath)
+                        //console.log(popularThumbnailPath)
                         var popularThumbnail = $("<img class='popular-thumbnail'>");
                         popularThumbnail.attr("src", popularThumbnailPath); //assign src for thumbnail img
                         console.log(popularThumbnail)
                         popularThumbnailArray.push(popularThumbnail); //push thumbnail to array
                         if (popularThumbnailArray.length >= 6) {
-                            //popularThumbnailArray.shift(); ///////////////////////////////////////////////////////
+                            popularThumbnailArray.shift(); ///////////////////////////////////////////////////////
                             $("#recent-searches").html(popularThumbnailArray)
                         }
                         else {
