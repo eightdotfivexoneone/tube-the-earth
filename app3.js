@@ -1,9 +1,9 @@
-$(document).ready(function() {
+//$(document).ready(function() {
 
 var longi;
 var lati;
 
-var geocoder = new google.maps.Geocoder();
+//var geocoder = new google.maps.Geocoder();
 var urlGoogle = "https://maps.googleapis.com/maps/api/geocode/json";
 var urlYoutube = "https://www.googleapis.com/youtube/v3/search";
 var apiKeyYoutube = "AIzaSyC3hyycsztOR8N1flGac1ocYQF1PGt6F6M";
@@ -32,8 +32,10 @@ var config = {
 firebase.initializeApp(config);
 var database = firebase.database();
 
-
 function mapsAjax(address, urlGoogle) {
+
+    
+
     return new Promise(function(resolve, reject) {
         if (geocoder) {
             geocoder.geocode({ 'address': address }, function (results, status) {
@@ -54,6 +56,8 @@ function mapsAjax(address, urlGoogle) {
         }
         });
     }
+});
+
 
 function youtubeAjax(urlYoutube) {
     return $.ajax({
@@ -62,13 +66,13 @@ function youtubeAjax(urlYoutube) {
     })
 }
 
-database.ref().on("child_added", function(snapshot) { //on page load, and when new child added...
+database.ref().on("child_added", function(snapshot) { //on page load, and when new child added... ************
         function loadFromDatabase(snapshot) {
             snapshot.forEach(function(childSnapshot) { //for each child in database...
                 var popularSearchItem = childSnapshot.val(); //grab value
                 console.log(popularSearchItem) //this is correct
                 var newMapsURL = urlGoogle;
-                newMapsURL += "?" + $.param({ //convert each location in database to lat/long; modify URL lookup for each item in database
+                newMapsURL += "?" + $.param({ //convert each location in database to lat/long; modify URL lookup for each item *******
                     'address': popularSearchItem,
                     'key': apiKeyGoogle
                 });   
@@ -105,14 +109,14 @@ database.ref().on("child_added", function(snapshot) { //on page load, and when n
                         else {
                             $("#recent-searches").html(popularThumbnailArray); //push updated contents of thumbnail array to page
                         }
-
-           
-        });
+                    });
+                });
+            });
+        }
     });
-});
 
 
-      function initMap() {
+function initMap() {
         
         var map = new google.maps.Map(document.getElementById('map-section'), {
           zoom: 8,
@@ -141,7 +145,7 @@ database.ref().on("child_added", function(snapshot) { //on page load, and when n
             console.log(location.lng());//longitude
         }
 
-        document.getElementById('submit').addEventListener('click', function() { //when submit button pressed (twice)...
+        document.getElementById('submit').addEventListener('click', function() { //when submit button pressed (twice)...*********
           geocodeAddress(geocoder, map);
           console.log(geocoder);
           console.log(map);
@@ -161,12 +165,12 @@ database.ref().on("child_added", function(snapshot) { //on page load, and when n
           method: "GET"
           })
           
-          .then(function(response) { //then...
+          .then(function(response) { //then... ******************************
             var results = response.data;
             console.log(response);
             console.log(response.pageInfo.totalResults);
-            if (response.pageInfo.totalResults !== 0) {
-              for (var i = 0; i < response.items.length; i++) { //circle through youtube response items             
+            if (response.pageInfo.totalResults !== 0) { //*******************************
+              for (var i = 0; i < response.items.length; i++) { //circle through youtube response items              
 
                 console.log(response);
                 console.log(response.items[i].id.videoId);
@@ -182,7 +186,7 @@ database.ref().on("child_added", function(snapshot) { //on page load, and when n
               };
             });
           });
-      };
+      }
       
       console.log(longi);
         
@@ -227,5 +231,4 @@ database.ref().on("child_added", function(snapshot) { //on page load, and when n
           $("#historyDiv").css("display", "none")
           $("#additionalDiv").css("display", "block")
       });
-    });
-})
+  

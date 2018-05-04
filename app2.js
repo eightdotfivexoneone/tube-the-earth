@@ -78,8 +78,6 @@ $(document).ready(function() {
     
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    //logs right data, grab right lat/long, but thumbnail is wrong
-
         function loadFromDatabase(snapshot) {
 
 //            $("#recent-searches").empty();
@@ -135,19 +133,12 @@ $(document).ready(function() {
                     })
                 })
             })
-    
-//adding thumbnail from first entry/click??????????????
-
         }
     
         loadFromDatabase(snapshot);        
-            
-    /*    popularSearchesArray.push(childSnapshot.val().userAddress); //push item to array
-        //NEED TO GET LAT/LONG AND THUMBNAIL, THEN PUSH TO THUMBNAIL ARRAY!!!!
-        $("#recent-searches").html(popularThumbnailArray);//push updated array to page
-        //NEED TO PUSH ARRAY OF THUMBNAILS, NOT LOCATIONS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    */
+
     });
+
     
     
     ////////////////ON SEARCH BUTTON CLICK...////////////////
@@ -204,5 +195,3 @@ $(document).ready(function() {
         saveSearch();
     }); 
     })
-
-    //on load, works, pushes stuff from database to page. on first entry/click, works. on second entry/click, new location isn't recognized and url doesn't change so same picture is pushed to database as before. also, last picture is replaced by _____
