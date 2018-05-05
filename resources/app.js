@@ -31,7 +31,8 @@ function initMap() {
         lati = location.lat();
         tube();
     }
-    document.getElementById('submit').addEventListener('click', function() {
+    document.getElementById('submit').addEventListener('click', function(event) {
+      event.preventDefault()
       geocodeAddress(geocoder, map);
       console.log(geocoder);
       console.log(map);
@@ -70,7 +71,7 @@ function initMap() {
         }
         $("#videoIframe").html("<iframe width='100%' src='https://www.youtube.com/embed/" + response.items[0].id.videoId + "' frameborder='0' allow='autoplay; encrypted-media' allowfullscreen></iframe>");
       } else {
-          alert("no results!");
+          // alert("no results!");
         };
       });
     }
