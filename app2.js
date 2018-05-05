@@ -99,7 +99,7 @@ $(document).ready(function() {
                     var newYoutubeURL = urlYoutube;
                     newYoutubeURL += "?" + $.param({ //modify youtube API url for each location item in database
                         'type': 'video',
-                        'maxResults': 1,
+                        'maxResults': 10,
                         'part': 'snippet',
                         'videoEmbeddable': true,
                         'location': lat + "," + long,
@@ -110,13 +110,21 @@ $(document).ready(function() {
                     //console.log(newYoutubeURL) //correct
                     youtubeAjax(newYoutubeURL) //call to youtube api to grab data for each item in database
                     .then (function(response) {
-                        //console.log(response)
                         popularThumbnailPath = response.items[0].snippet.thumbnails.default.url;
-                        //console.log(popularThumbnailPath)
-                        var popularThumbnail = $("<img class='popular-thumbnail'>");
+                        console.log(popularThumbnailPath);
+                        var popularThumbnailId = response.items[0].id.videoId;
+                        console.log(popularThumbnailId);
+                        var popularThumbnailDiv = $('<div id="'+popularSearchItem+'"</div>'); //each thumbnail has its own div called location name
+                        var popularThumbnail = $("<img>");
+                        $("#"+popularSearchItem).append(popularThumbnail);
+                        console.log(popularSearchItem);
                         popularThumbnail.attr("src", popularThumbnailPath); //assign src for thumbnail img
-                        console.log(popularThumbnail)
+                        $("#"+popularSearchItem).text(popularThumbnailId); //append each thumbnail's ID to its corresponding image div
+                        $("#"+popularSearchItem).append(popularSearchItem); //append each thumbnail's location to its div
+                        //console.log(popularThumbnail);
+                        //console.log(popularSearchItem);
                         popularThumbnailArray.push(popularThumbnail); //push thumbnail to array
+                        console.log(popularThumbnailDiv);
                         if (popularThumbnailArray.length >= 6) {
                             popularThumbnailArray.shift(); ///////////////////////////////////////////////////////
                             $("#recent-searches").html(popularThumbnailArray)
@@ -183,7 +191,7 @@ $(document).ready(function() {
                         var userThumbnail = $("<img class='user-thumbnail'>");
                         userThumbnail.attr("src", userThumbnailPath);
                         userThumbnailArray.push(userThumbnail);
-                        console.log(response.items[i])                        
+                        console.log(response.items[i]);                        
                         }
 
                         $("#user-results").append(userThumbnailArray);
@@ -197,3 +205,18 @@ $(document).ready(function() {
 
     /////// ON LOAD, PUSHES CORRECT THUMBNAILS FROM SEARCHES TO PAGE ///////
     ////// ON CLICK OF 'SUBMIT', GRABS SAME THUMBNAIL MULTIPLE TIMES  //////
+
+
+    /*
+
+    log coordinates instead of location?
+
+set to id of youtube video
+what's being added to array for a given id or place
+
+each line: id and what was entered for search, to figure out what's being added (if same thumbnail, from same lat/long or different?)
+
+communicate with team
+if still can't figure out, tell dexter
+
+    */
