@@ -74,7 +74,6 @@ $(document).ready(function() {
     //push to array
     //print updated array to page
     
-    
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         function loadFromDatabase(snapshot) {
@@ -134,7 +133,7 @@ $(document).ready(function() {
             })
         }
     
-        loadFromDatabase(snapshot);        
+        loadFromDatabase(snapshot);
 
     });
 
@@ -190,7 +189,11 @@ $(document).ready(function() {
                         $("#user-results").append(userThumbnailArray);
                 });
             });
-        }
+        };
         saveSearch();
     }); 
     })
+
+
+    /////// ON LOAD, PUSHES CORRECT THUMBNAILS FROM SEARCHES TO PAGE ///////
+    ////// ON CLICK OF 'SUBMIT', GRABS SAME THUMBNAIL MULTIPLE TIMES  //////
