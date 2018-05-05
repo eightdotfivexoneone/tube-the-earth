@@ -11,6 +11,8 @@ $(document).ready(function() {
         var apiKeyGoogle = "AIzaSyCXz3ctOfdCYgcEHTokEyM5Dso_kiMJDeY";
         var urlYoutube = "https://www.googleapis.com/youtube/v3/search";
         var apiKeyYoutube = "AIzaSyC3hyycsztOR8N1flGac1ocYQF1PGt6F6M";
+        var popularSearchArray = [];
+        var j = 0;
     
     /////////////////////////////////////////////////////FIREBASE/////////////////////////////////////////////////////
     
@@ -63,7 +65,7 @@ $(document).ready(function() {
         })
     }
     
-    var geocoder = new google.maps.Geocoder();
+    // var geocoder = new google.maps.Geocoder();
     
     ////////////////ANYTIME A NEW ITEM IS ADDED TO THE DATABASE, AND ON LOAD////////////////
     
@@ -83,8 +85,13 @@ $(document).ready(function() {
 //            $("#recent-searches").empty();
             snapshot.forEach(function(childSnapshot) { //for each child in database...
                 var popularSearchItem = childSnapshot.val(); //grab value
+                popularSearchArray.push(popularSearchItem)
+                console.log(popularSearchArray)
                 console.log(popularSearchItem)
-                
+                $("#history1").html(popularSearchArray[0])
+                $("#history2").html(popularSearchArray[1])
+                $("#history3").html(popularSearchArray[2])
+                $("#history4").html(popularSearchArray[3])
                 var newMapsURL = urlGoogle;
                 newMapsURL += "?" + $.param({ //convert each location in database to lat/long; modify URL lookup for each item in database
                     'address': popularSearchItem,
@@ -121,10 +128,10 @@ $(document).ready(function() {
                         popularThumbnailArray.push(popularThumbnail); //push thumbnail to array
                         if (popularThumbnailArray.length >= 6) {
                             //popularThumbnailArray.shift(); ///////////////////////////////////////////////////////
-                            $("#recent-searches").html(popularThumbnailArray)
+                            $("#historyDiv").html(popularThumbnailArray)
                         }
                         else {
-                            $("#recent-searches").html(popularThumbnailArray); //push updated contents of thumbnail array to page
+                            $("#historyDiv").html(popularThumbnailArray); //push updated contents of thumbnail array to page
                         }
 
                         //console.log(popularThumbnailArray)
@@ -144,12 +151,19 @@ $(document).ready(function() {
     ////////////////ON SEARCH BUTTON CLICK...////////////////
 
     
-    $("#search-button").on("click", function() {
+    $("#submit").on("click", function() {
         userThumbnailArray = [];
-        $("#user-results").empty();
-        userAddress = $("#search-field").val().trim();
+        userAddress = $("#address").val().trim();
         event.preventDefault();
-    
+        $("#history1").html(popularSearchArray[j + 4])
+        $("#history2").html(popularSearchArray[j + 3])
+        $("#history3").html(popularSearchArray[j + 2])
+        $("#history4").html(popularSearchArray[j + 1])
+        popularSearchArray.shift();
+        popularSearchArray.splice(0, 1);
+        console.log(popularSearchArray)
+        j++
+        console.log(j);
         function saveSearch() {
             database.ref().push({
                 userAddress: userAddress, //save each new location entered by user to database
