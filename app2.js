@@ -64,6 +64,7 @@ $(document).ready(function() {
     
     var geocoder = new google.maps.Geocoder();
     
+
     ////////////////ANYTIME A NEW ITEM IS ADDED TO THE DATABASE, AND ON LOAD////////////////
     
 
@@ -75,8 +76,6 @@ $(document).ready(function() {
     //grab thumbnail
     //push to page
     
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         function loadFromDatabase(snapshot) {
 
             snapshot.forEach(function(childSnapshot) { //for each child in database...
@@ -87,7 +86,6 @@ $(document).ready(function() {
                     'address': popularSearchItem,
                     'key': apiKeyGoogle
                 });
-                //console.log("urlGoogle: ",urlGoogle);
     
                 mapsAjax(popularSearchItem, newMapsURL) //call to google maps API to grab data for each item in database
                 .then (function(results) {
@@ -107,18 +105,10 @@ $(document).ready(function() {
                     })
                     youtubeAjax(newYoutubeURL) //call to youtube api to grab data for each item in database
                     .then (function(response) {
-                        popularThumbnailPath = response.items[0].snippet.thumbnails.default.url; //location from firebase is being updated correctly, but video ID and src not changing after the second location submit after page load.
-                        //console.log(response.items[0]);
-                        //console.log(popularThumbnailPath);
+                        popularThumbnailPath = response.items[0].snippet.thumbnails.default.url;
                         var popularThumbnailId = response.items[0].id.videoId;
-                        //console.log(popularThumbnailId);
                         var popularThumbnail = $("<img>");
-                        //console.log(popularThumbnailDiv) //correct
-                        //console.log(popularSearchItem);
                         popularThumbnail.attr("src", popularThumbnailPath); //assign src for thumbnail img
-                        //$("#recent-searches").append(popularThumbnailId + "&nbsp;");
-                        //$("#recent-searches").append(popularSearchItem + "&nbsp;");
-                        //$("#recent-searches").append(lat + "," + long + "&nbsp;");
                         popularThumbnailArray.push(popularThumbnail);
                         if (popularThumbnailArray.length >= 6) {
                             popularThumbnailArray.shift(); ///////////////////////////////////////////////////////
@@ -127,9 +117,7 @@ $(document).ready(function() {
                         else {
                             $("#recent-searches").html(popularThumbnailArray); //push updated contents of thumbnail array to page
                         }
-                        //console.log(popularThumbnailArray)
-                        
-                        
+                    
                     })
                 })
             
@@ -159,8 +147,3 @@ $(document).ready(function() {
     });
     
 })
-    
-
-
-    /////// ON LOAD, PUSHES CORRECT THUMBNAILS FROM SEARCHES TO PAGE ///////
-    ////// ON CLICK OF 'SUBMIT', GRABS SAME THUMBNAIL MULTIPLE TIMES  //////
