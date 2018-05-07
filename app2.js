@@ -213,18 +213,3 @@ $(document).ready(function() {
 
     /////// ON LOAD, PUSHES CORRECT THUMBNAILS FROM SEARCHES TO PAGE ///////
     ////// ON CLICK OF 'SUBMIT', GRABS SAME THUMBNAIL MULTIPLE TIMES  //////
-
-
-    /*
-
-    log coordinates instead of location?
-
-set to id of youtube video
-what's being added to array for a given id or place
-
-each line: id and what was entered for search, to figure out what's being added (if same thumbnail, from same lat/long or different?)
-
-communicate with team
-if still can't figure out, tell dexter
-
-    */
