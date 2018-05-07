@@ -68,7 +68,7 @@ $(document).ready(function() {
     
 
 
-    database.ref().orderByKey().limitToLast(5).on("child_added", function(snapshot) {
+    database.ref().on("child_added", function(snapshot) {
     
     //for each item in database...
     //grab lat/long
