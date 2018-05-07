@@ -74,6 +74,9 @@ $(document).ready(function() {
     
     ////////////////ANYTIME A NEW ITEM IS ADDED TO THE DATABASE, AND ON LOAD////////////////
     
+    //database.ref().orderByChild('timestamp').startAt(Date.now()).limitToLast(5).on("child_added", function(snapshot) {
+    ///TRIED TO USE THE ABOVE CODE BUT IT BROKE EVERYTHING!!!!!!!!
+
     database.ref().on("child_added", function(snapshot) {
     
     //for each item in database...
@@ -99,14 +102,7 @@ $(document).ready(function() {
                 .then (function(results) {
                     lat = results.lat;
                     long = results.lng;
-                    //console.log(results.results[0].geometry);
-//                    lat = results.results[0].geometry.location.lat;
- //                   long = results.results[0].geometry.location.lng;
-                    
-                    //var lat = results.lat;
-                    //var long = results.lng; /////////////////////////////////////////////////////
-                    //console.log(lat + "," + long) //correct
-                    
+                                        
                     var newYoutubeURL = urlYoutube;
                     newYoutubeURL += "?" + $.param({ //modify youtube API url for each location item in database
                         'type': 'video',
@@ -124,7 +120,7 @@ $(document).ready(function() {
                         //console.log(response.items[0]);
                         console.log(popularThumbnailPath);
                         var popularThumbnailId = response.items[0].id.videoId;
-                        //console.log(popularThumbnailId);
+                        console.log(popularThumbnailId);
                         var popularThumbnail = $("<img>");
                         //console.log(popularThumbnailDiv) //correct
                         console.log(popularSearchItem);
