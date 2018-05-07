@@ -11,6 +11,8 @@ $(document).ready(function() {
         var apiKeyGoogle = "AIzaSyCXz3ctOfdCYgcEHTokEyM5Dso_kiMJDeY";
         var urlYoutube = "https://www.googleapis.com/youtube/v3/search";
         var apiKeyYoutube = "AIzaSyC3hyycsztOR8N1flGac1ocYQF1PGt6F6M";
+        var lat;
+        var long;
     
     /////////////////////////////////////////////////////FIREBASE/////////////////////////////////////////////////////
     
@@ -29,6 +31,15 @@ $(document).ready(function() {
     ///////////////////////////////////////////////GLOBAL FUNCTIONS/////////////////////////////////////////////////////
     
     function mapsAjax(address, urlGoogle) {
+
+    /*    return $.ajax({
+            url: urlGoogle,
+            method: "GET"
+        })
+    };
+*/
+            
+
         return new Promise(function(resolve, reject) {
             if (geocoder) {
                 geocoder.geocode({ 'address': address }, function (results, status) {
@@ -38,7 +49,7 @@ $(document).ready(function() {
                         resolve({
                             lat: lat,
                             lng: lng
-                        });
+                        });             console.log(results[0])
                     }
                     else {
                         reject("Geocoding failed: " + status);
@@ -48,12 +59,9 @@ $(document).ready(function() {
                 reject('no geocoder');
             }
         });
-    };
+    }
 
-//        return $.ajax({
-//            url: urlGoogle,
-//            method: "GET"
-//        })
+
     
     function youtubeAjax(urlYoutube) {
         return $.ajax({
@@ -71,17 +79,14 @@ $(document).ready(function() {
     //for each item in database...
     //grab lat/long
     //grab thumbnail
-    //push to array
-    //print updated array to page
+    //push to page
     
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         function loadFromDatabase(snapshot) {
 
-//            $("#recent-searches").empty();
             snapshot.forEach(function(childSnapshot) { //for each child in database...
-                var popularSearchItem = childSnapshot.val(); //grab value
-                //console.log(popularSearchItem)
+                var popularSearchItem = childSnapshot.val(); //grab value of searched location
                 
                 var newMapsURL = urlGoogle;
                 newMapsURL += "?" + $.param({ //convert each location in database to lat/long; modify URL lookup for each item in database
@@ -92,14 +97,20 @@ $(document).ready(function() {
     
                 mapsAjax(popularSearchItem, newMapsURL) //call to google maps API to grab data for each item in database
                 .then (function(results) {
-                    var lat = results.lat;
-                    var long = results.lng;
+                    lat = results.lat;
+                    long = results.lng;
+                    //console.log(results.results[0].geometry);
+//                    lat = results.results[0].geometry.location.lat;
+ //                   long = results.results[0].geometry.location.lng;
+                    
+                    //var lat = results.lat;
+                    //var long = results.lng; /////////////////////////////////////////////////////
                     //console.log(lat + "," + long) //correct
                     
                     var newYoutubeURL = urlYoutube;
                     newYoutubeURL += "?" + $.param({ //modify youtube API url for each location item in database
                         'type': 'video',
-                        'maxResults': 10,
+                        'maxResults': 50,
                         'part': 'snippet',
                         'videoEmbeddable': true,
                         'location': lat + "," + long,
@@ -110,40 +121,44 @@ $(document).ready(function() {
                     //console.log(newYoutubeURL) //correct
                     youtubeAjax(newYoutubeURL) //call to youtube api to grab data for each item in database
                     .then (function(response) {
-                        popularThumbnailPath = response.items[0].snippet.thumbnails.default.url;
+                        popularThumbnailPath = response.items[0].snippet.thumbnails.default.url; //location from firebase is being updated correctly, but video ID and src not changing after the second location submit after page load.
+                        //console.log(response.items[0]);
                         console.log(popularThumbnailPath);
                         var popularThumbnailId = response.items[0].id.videoId;
-                        console.log(popularThumbnailId);
-                        var popularThumbnailDiv = $('<div id="'+popularSearchItem+'"</div>'); //each thumbnail has its own div called location name
+                        //console.log(popularThumbnailId);
+                        //var popularThumbnailDiv = $('<div id="'+popularSearchItem+'"</div>'); //each thumbnail has its own div called location name
                         var popularThumbnail = $("<img>");
-                        $("#"+popularSearchItem).append(popularThumbnail);
+                        //console.log(popularThumbnailDiv) //correct
+                        //$("#"+popularSearchItem).append(popularThumbnail + "<br>");
                         console.log(popularSearchItem);
                         popularThumbnail.attr("src", popularThumbnailPath); //assign src for thumbnail img
-                        $("#"+popularSearchItem).text(popularThumbnailId); //append each thumbnail's ID to its corresponding image div
-                        $("#"+popularSearchItem).append(popularSearchItem); //append each thumbnail's location to its div
-                        //console.log(popularThumbnail);
-                        //console.log(popularSearchItem);
-                        popularThumbnailArray.push(popularThumbnail); //push thumbnail to array
-                        console.log(popularThumbnailDiv);
-                        if (popularThumbnailArray.length >= 6) {
-                            popularThumbnailArray.shift(); ///////////////////////////////////////////////////////
-                            $("#recent-searches").html(popularThumbnailArray)
-                        }
-                        else {
-                            $("#recent-searches").html(popularThumbnailArray); //push updated contents of thumbnail array to page
-                        }
-
+                        //$("#"+popularSearchItem).text(popularThumbnailId); //append each thumbnail's ID to its corresponding image div
+                        $("#recent-searches").append(popularThumbnailId + "&nbsp;");
+                        //$("#"+popularSearchItem).text(popularSearchItem); //append each thumbnail's location to its div
+                        $("#recent-searches").append(popularSearchItem + "&nbsp;");
+                        $("#recent-searches").append(lat + "," + long + "&nbsp;");
+                        $("#recent-searches").append(popularThumbnail);
+                        $("#recent-searches").append("<br>");
+                        //popularThumbnailArray.push(popularThumbnail); //push thumbnail to array
+                        //console.log(popularThumbnailDiv);
+                        //if (popularThumbnailArray.length >= 6) {
+                          //  popularThumbnailArray.shift(); ///////////////////////////////////////////////////////
+                        //    $("#recent-searches").html(popularThumbnailArray);
+                        //}
+                        //else {
+                          //  $("#recent-searches").html(popularThumbnailArray); //push updated contents of thumbnail array to page
+                        //}
                         //console.log(popularThumbnailArray)
                         
                         
                     })
                 })
-            })
-        }
-    
+            
+        });
+    }
         loadFromDatabase(snapshot);
-
     });
+    
 
     
     
@@ -167,13 +182,14 @@ $(document).ready(function() {
             });
     
             mapsAjax(userAddress, urlGoogle) //convert location to lat/long
-
             .then (function(results) {
-                var lat = results.lat;
-                var long = results.lng;
+                lat = results.lat;
+                long = results.lng;
+                //lat = results.results[0].geometry.location.lat;
+                //long = results.results[0].geometry.location.lng;
                 urlYoutube += "?" + $.param({ 
                     'type': 'video',
-                    'maxResults': 5,
+                    'maxResults': 50,
                     'part': 'snippet',
                     'videoEmbeddable': true,
                     'location': lat + "," + long,
@@ -199,8 +215,11 @@ $(document).ready(function() {
             });
         };
         saveSearch();
-    }); 
-    })
+    });
+})
+    
+    
+    
 
 
     /////// ON LOAD, PUSHES CORRECT THUMBNAILS FROM SEARCHES TO PAGE ///////
