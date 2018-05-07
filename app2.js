@@ -32,14 +32,6 @@ $(document).ready(function() {
     
     function mapsAjax(address, urlGoogle) {
 
-    /*    return $.ajax({
-            url: urlGoogle,
-            method: "GET"
-        })
-    };
-*/
-            
-
         return new Promise(function(resolve, reject) {
             if (geocoder) {
                 geocoder.geocode({ 'address': address }, function (results, status) {
@@ -74,10 +66,9 @@ $(document).ready(function() {
     
     ////////////////ANYTIME A NEW ITEM IS ADDED TO THE DATABASE, AND ON LOAD////////////////
     
-    //database.ref().orderByChild('timestamp').startAt(Date.now()).limitToLast(5).on("child_added", function(snapshot) {
-    ///TRIED TO USE THE ABOVE CODE BUT IT BROKE EVERYTHING!!!!!!!!
 
-    database.ref().on("child_added", function(snapshot) {
+
+    database.ref().orderByKey().limitToLast(5).on("child_added", function(snapshot) {
     
     //for each item in database...
     //grab lat/long
@@ -164,50 +155,11 @@ $(document).ready(function() {
             database.ref().push({
                 userAddress: userAddress, //save each new location entered by user to database
             });
-    
-            urlGoogle += "?" + $.param({  //modify URL grab data for that location
-                'address': userAddress,
-                'key': apiKeyGoogle
-            });
-    
-            mapsAjax(userAddress, urlGoogle) //convert location to lat/long
-            .then (function(results) {
-                lat = results.lat;
-                long = results.lng;
-                //lat = results.results[0].geometry.location.lat;
-                //long = results.results[0].geometry.location.lng;
-                urlYoutube += "?" + $.param({ 
-                    'type': 'video',
-                    'maxResults': 50,
-                    'part': 'snippet',
-                    'videoEmbeddable': true,
-                    'location': lat + "," + long,
-                    'locationRadius': '10mi',
-                    'key': apiKeyYoutube, //grab youtube thumbnail based on lat/long
-                    'chart': 'mostPopular'
-                });
-
-                youtubeAjax(urlYoutube)
-                .then (function(response) {
-                    $("#user-results").empty();
-
-                    for (var i=0; i<5; i++) { //push 5 video thumbnails pertaining to user's searched location to page
-                        var userThumbnailPath = response.items[i].snippet.thumbnails.default.url;
-                        var userThumbnail = $("<img class='user-thumbnail'>");
-                        userThumbnail.attr("src", userThumbnailPath);
-                        userThumbnailArray.push(userThumbnail);
-                        console.log(response.items[i]);                        
-                        }
-
-                        $("#user-results").append(userThumbnailArray);
-                });
-            });
         };
         saveSearch();
     });
+    
 })
-    
-    
     
 
 
