@@ -118,7 +118,6 @@ $(document).ready(function() {
                         'key': apiKeyYoutube,
                         'chart': 'mostPopular'
                     })
-                    //console.log(newYoutubeURL) //correct
                     youtubeAjax(newYoutubeURL) //call to youtube api to grab data for each item in database
                     .then (function(response) {
                         popularThumbnailPath = response.items[0].snippet.thumbnails.default.url; //location from firebase is being updated correctly, but video ID and src not changing after the second location submit after page load.
@@ -126,21 +125,15 @@ $(document).ready(function() {
                         console.log(popularThumbnailPath);
                         var popularThumbnailId = response.items[0].id.videoId;
                         //console.log(popularThumbnailId);
-                        //var popularThumbnailDiv = $('<div id="'+popularSearchItem+'"</div>'); //each thumbnail has its own div called location name
                         var popularThumbnail = $("<img>");
                         //console.log(popularThumbnailDiv) //correct
-                        //$("#"+popularSearchItem).append(popularThumbnail + "<br>");
                         console.log(popularSearchItem);
                         popularThumbnail.attr("src", popularThumbnailPath); //assign src for thumbnail img
-                        //$("#"+popularSearchItem).text(popularThumbnailId); //append each thumbnail's ID to its corresponding image div
                         $("#recent-searches").append(popularThumbnailId + "&nbsp;");
-                        //$("#"+popularSearchItem).text(popularSearchItem); //append each thumbnail's location to its div
                         $("#recent-searches").append(popularSearchItem + "&nbsp;");
                         $("#recent-searches").append(lat + "," + long + "&nbsp;");
                         $("#recent-searches").append(popularThumbnail);
                         $("#recent-searches").append("<br>");
-                        //popularThumbnailArray.push(popularThumbnail); //push thumbnail to array
-                        //console.log(popularThumbnailDiv);
                         //if (popularThumbnailArray.length >= 6) {
                           //  popularThumbnailArray.shift(); ///////////////////////////////////////////////////////
                         //    $("#recent-searches").html(popularThumbnailArray);
