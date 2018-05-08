@@ -11,11 +11,9 @@ $(document).ready(function() {
         var apiKeyGoogle = "AIzaSyCXz3ctOfdCYgcEHTokEyM5Dso_kiMJDeY";
         var urlYoutube = "https://www.googleapis.com/youtube/v3/search";
         var apiKeyYoutube = "AIzaSyC3hyycsztOR8N1flGac1ocYQF1PGt6F6M";
-        var lat;
-        var long;
-        var popularSearchArray = []; //added
+        var popularSearchArray = [];
         var j = 0;
-
+    
     /////////////////////////////////////////////////////FIREBASE/////////////////////////////////////////////////////
     
         var config = {
@@ -33,9 +31,6 @@ $(document).ready(function() {
     ///////////////////////////////////////////////GLOBAL FUNCTIONS/////////////////////////////////////////////////////
     
     function mapsAjax(address, urlGoogle) {
-    
-        var geocoder = new google.maps.Geocoder();
-    
         return new Promise(function(resolve, reject) {
             if (geocoder) {
                 geocoder.geocode({ 'address': address }, function (results, status) {
@@ -56,48 +51,43 @@ $(document).ready(function() {
             }
         });
     }
-
-
     
     function youtubeAjax(urlYoutube) {
         return $.ajax({
             url: urlYoutube,
             method: "GET"
         })
-    };
+    }
     
+    ////////////////ANYTIME A NEW ITEM IS ADDED TO THE DATABASE, AND ON LOAD////////////////
     
-
-    ////////////////ANYTIME A NEW ITEM IS ADDED TO THE DATABASE, AND ON LOAD////////////////    
-
     database.ref().on("child_added", function(snapshot) {
     
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         function loadFromDatabase(snapshot) {
-
             snapshot.forEach(function(childSnapshot) { //for each child in database...
-                var popularSearchItem = childSnapshot.val(); //grab value of searched location
-                popularSearchArray.push(popularSearchItem); //added
-
-                $("#history1").html(popularSearchArray[0]);
-                $("#history2").html(popularSearchArray[1]);
-                $("#history3").html(popularSearchArray[2]);
-                $("#history4").html(popularSearchArray[3]);
-
+                var popularSearchItem = childSnapshot.val(); //grab value
+                popularSearchArray.push(popularSearchItem)
+                $("#history1").html(popularSearchArray[0])
+                $("#history2").html(popularSearchArray[1])
+                $("#history3").html(popularSearchArray[2])
+                $("#history4").html(popularSearchArray[3])
                 var newMapsURL = urlGoogle;
                 newMapsURL += "?" + $.param({ //convert each location in database to lat/long; modify URL lookup for each item in database
                     'address': popularSearchItem,
                     'key': apiKeyGoogle
                 });
-    
+
                 mapsAjax(popularSearchItem, newMapsURL) //call to google maps API to grab data for each item in database
                 .then (function(results) {
-                    lat = results.lat;
-                    long = results.lng;
-                                        
+                    var lat = results.lat;
+                    var long = results.lng;
+                    
                     var newYoutubeURL = urlYoutube;
                     newYoutubeURL += "?" + $.param({ //modify youtube API url for each location item in database
                         'type': 'video',
-                        'maxResults': 50,
+                        'maxResults': 1,
                         'part': 'snippet',
                         'videoEmbeddable': true,
                         'location': lat + "," + long,
@@ -107,52 +97,86 @@ $(document).ready(function() {
                     })
                     youtubeAjax(newYoutubeURL) //call to youtube api to grab data for each item in database
                     .then (function(response) {
+                        console.log(response)
                         popularThumbnailPath = response.items[0].snippet.thumbnails.default.url;
-                        var popularThumbnailId = response.items[0].id.videoId;
-                        var popularThumbnail = $("<img>");
+                        console.log(popularThumbnailPath)
+                        var popularThumbnail = $("<img class='popular-thumbnail'>");
                         popularThumbnail.attr("src", popularThumbnailPath); //assign src for thumbnail img
-                        console.log(popularThumbnailPath);
-                        console.log(popularThumbnailId);
-                        popularThumbnailArray.push(popularThumbnail);
+                        console.log(popularThumbnail)
+                        popularThumbnailArray.push(popularThumbnail); //push thumbnail to array
                         if (popularThumbnailArray.length >= 6) {
-                            popularThumbnailArray.shift();
-                            $("#historyDiv").html(popularThumbnailArray);
+                            //popularThumbnailArray.shift(); ///////////////////////////////////////////////////////
+                            $("#historyDiv").html(popularThumbnailArray)
                         }
                         else {
                             $("#historyDiv").html(popularThumbnailArray); //push updated contents of thumbnail array to page
                         }
-                    
                     })
                 })
-            
-        });
-    }
-        loadFromDatabase(snapshot);
-    });
+            })
+        }
     
+        loadFromDatabase(snapshot);        
+
+    });
 
     
     
     ////////////////ON SEARCH BUTTON CLICK...////////////////
 
     
-    $("#search-button").on("click", function() {
-        $("#user-results").empty();
-        userAddress = $("#search-field").val().trim();
+    $("#submit").on("click", function() {
+        userThumbnailArray = [];
+        userAddress = $("#address").val().trim();
         event.preventDefault();
-/*
-        $("#history1").html(popularSearchArray[j + 4]);
-        $("#history2").html(popularSearchArray[j + 3]);
-        $("#history3").html(popularSearchArray[j + 2]);
-        $("#history4").html(popularSearchArray[j + 1]);
-        j++;
-*/    
+        $("#history1").html(popularSearchArray[j + 4])
+        $("#history2").html(popularSearchArray[j + 3])
+        $("#history3").html(popularSearchArray[j + 2])
+        $("#history4").html(popularSearchArray[j + 1])
+        popularSearchArray.shift();
+        popularSearchArray.splice(0, 1);
+        j++
         function saveSearch() {
             database.ref().push({
                 userAddress: userAddress, //save each new location entered by user to database
             });
-        };
-        saveSearch();
-    });
     
-})
+            urlGoogle += "?" + $.param({  //modify URL grab data for that location
+                'address': userAddress,
+                'key': apiKeyGoogle
+            });
+    
+            mapsAjax(userAddress, urlGoogle) //convert location to lat/long
+
+            .then (function(results) {
+                var lat = results.lat;
+                var long = results.lng;
+                urlYoutube += "?" + $.param({ 
+                    'type': 'video',
+                    'maxResults': 5,
+                    'part': 'snippet',
+                    'videoEmbeddable': true,
+                    'location': lat + "," + long,
+                    'locationRadius': '10mi',
+                    'key': apiKeyYoutube, //grab youtube thumbnail based on lat/long
+                    'chart': 'mostPopular'
+                });
+
+                youtubeAjax(urlYoutube)
+                .then (function(response) {
+                    $("#user-results").empty();
+
+                    for (var i=0; i<5; i++) { //push 5 video thumbnails pertaining to user's searched location to page
+                        var userThumbnailPath = response.items[i].snippet.thumbnails.default.url;
+                        var userThumbnail = $("<img class='user-thumbnail'>");
+                        userThumbnail.attr("src", userThumbnailPath);
+                        userThumbnailArray.push(userThumbnail);
+                        console.log(response.items[i])                        
+                        }
+                    $("#user-results").append(userThumbnailArray);
+                });
+            });
+        }
+        saveSearch();
+    }); 
+    })
