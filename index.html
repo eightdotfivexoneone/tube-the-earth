@@ -17,9 +17,9 @@
     <div class="split left" id="map-section"></div>
 
     <div class="split right">
-      <nav class="navbar navbar-dark bg-danger p-3">
-        <a class="navbar-brand" href="#">
-          <b>Tube The Earth</b>
+      <nav class="navbar navbar-dark bg-transparent p-3">
+        <a class="navbar-brand text-dark" href="#">
+          <d1><b>Tube The Earth</b></d1>
         </a>
     <div>
       <div id="searchBar" class="column input-group search-nav">
@@ -29,21 +29,27 @@
               class="form-control w-75 p-2"
               placeholder="Search By Location">
             <input id="submit" class="btn btn-outline-light w-25" type="button" value="Tube">
-          <div class="row">
-            <form class="form-inline">
-          </div>
-          <div class="row  mt-1">
-            <h6 class="colsmall mx-3 my-1">Radius (in miles)</h6>
-            <select class="nav nav-pills ml-3" id="rad" name="radius" class="small">
-              <option value="1">1</option>
-              <option value="5">5</option>
-              <option value="10" selected>10</option>
-              <option value="50">50</option>
-            </select>
-          </div>
+              <div class="row">
+                <form class="form-inline">
+              </div>
+              <div class="row  mt-1">
+                <h5 class="col small ml-2 my-1">Radius (in miles)</h5>
+                <select class="nav nav-pills" id="rad" name="radius" class="small">
+                  <option value="1">1</option>
+                  <option value="5">5</option>
+                  <option value="10" selected>10</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
         </form>
       </form>
     </div>
+  </div>
+ 
+  <div class="row  pl-3">
+    <h5 class="text-alert">Current Location:&nbsp; </h5> 
+    <d3></d3> <span id="currentLat">43.071755</span>, <span id="currentLong">-70.762553</span></d3>
+  
   </div>
       </nav>
         <div class="card bg-dark" style="width:100%">
@@ -54,9 +60,9 @@
               </iframe>
             </div>
             <div class="row">
-              <ul class="nav nav-pills mx-auto" style="width:100%">
+              <ul class="nav nav-pills pl-3 mx-auto" style="width:100%">
                 <li class="nav-item">
-                  <a id="recently" class="nav-link bg-secondary text-light m-2" href="#">Additional Results</a>
+                  <a id="recently" class="nav-link bg-secondary text-light p-2 m-2" href="#">Additional Results</a>
                 </li>
                 <li class="nav-item">
                   <a id="history" class="nav-link text-dark bg-danger  m-2" href="#">Trending</a>
