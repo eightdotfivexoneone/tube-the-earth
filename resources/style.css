@@ -42,6 +42,10 @@ b {
   display: none;
 }
 
+#additionalDiv {
+  display: none;
+}
+
 #video iframe {
   position: absolute;
   top: 0;
