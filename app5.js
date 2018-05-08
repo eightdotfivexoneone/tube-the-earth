@@ -114,7 +114,7 @@ $(document).ready(function() {
                         console.log(popularThumbnailId);
                         popularThumbnailArray.push(popularThumbnail);
                         if (popularThumbnailArray.length >= 6) {
-                            popularThumbnailArray.shift(); ///////////////////////////////////////////////////////
+                            popularThumbnailArray.shift();
                             $("#historyDiv").html(popularThumbnailArray);
                         }
                         else {
@@ -144,6 +144,7 @@ $(document).ready(function() {
         $("#history2").html(popularSearchArray[j + 3]);
         $("#history3").html(popularSearchArray[j + 2]);
         $("#history4").html(popularSearchArray[j + 1]);
+        j++;
     
         function saveSearch() {
             database.ref().push({
