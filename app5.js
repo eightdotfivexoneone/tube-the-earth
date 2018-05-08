@@ -107,15 +107,14 @@ $(document).ready(function() {
                     .then (function(response) {
                         popularThumbnailPath = response.items[0].snippet.thumbnails.default.url;
                         var popularThumbnailId = response.items[0].id.videoId;
-                        var popularThumbnail = $("<img>");
-                        //$("#popular").wrap("<a href='" + link + "'/>");
-                        //popularThumbnail.attr("src", popularThumbnailPath); //assign src for thumbnail img
+                        var popularThumbnail = $("<img id='popular'>");
+                        popularThumbnail.attr("src", popularThumbnailPath); //assign src for thumbnail img
                         var link = "http://youtube.com/watch";
                         link += "?" + $.param({
                             v: popularThumbnailId
                         });
                         console.log(link);
-                        popularThumbnail.attr("href", link);
+                        $("#popular").wrap($("<a>").attr("href", link));
                         popularThumbnailArray.push(popularThumbnail);
                         if (popularThumbnailArray.length >= 6) {
                             popularThumbnailArray.shift();
