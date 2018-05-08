@@ -108,10 +108,14 @@ $(document).ready(function() {
                         popularThumbnailPath = response.items[0].snippet.thumbnails.default.url;
                         var popularThumbnailId = response.items[0].id.videoId;
                         var popularThumbnail = $("<img>");
-                        popularThumbnail.attr("src", popularThumbnailPath); //assign src for thumbnail img
-                        var link = "http://youtube.com/watch?v=";
-                        link += popularThumbnailId;
-                        popularThumbnail.setAttribute("href", link);//http://youtube.com/watch?v=CY8E6N5Nzec
+                        //$("#popular").wrap("<a href='" + link + "'/>");
+                        //popularThumbnail.attr("src", popularThumbnailPath); //assign src for thumbnail img
+                        var link = "http://youtube.com/watch";
+                        link += "?" + $.param({
+                            v: popularThumbnailId
+                        });
+                        console.log(link);
+                        popularThumbnail.attr("href", link);
                         popularThumbnailArray.push(popularThumbnail);
                         if (popularThumbnailArray.length >= 6) {
                             popularThumbnailArray.shift();
