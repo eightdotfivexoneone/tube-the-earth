@@ -134,7 +134,7 @@ $(document).ready(function() {
     
     $("#submit").on("click", function() {
         //$(historyDiv).empty();
-        address = $("#searchBar").val().trim();
+        address = $("#address").val().trim();
         event.preventDefault();
 
         function saveSearch() {
