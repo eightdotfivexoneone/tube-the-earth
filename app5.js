@@ -110,6 +110,8 @@ $(document).ready(function() {
                         var popularThumbnailId = response.items[0].id.videoId;
                         var popularThumbnail = $("<img>");
                         popularThumbnail.attr("src", popularThumbnailPath); //assign src for thumbnail img
+                        console.log(popularThumbnailPath);
+                        console.log(popularThumbnailId);
                         popularThumbnailArray.push(popularThumbnail);
                         if (popularThumbnailArray.length >= 6) {
                             popularThumbnailArray.shift(); ///////////////////////////////////////////////////////
