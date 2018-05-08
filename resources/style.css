@@ -1,40 +1,21 @@
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      /* #map {
-        height: 80%;
-      } */
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      /* #floating-panel {
-        position: absolute;
-        top: 10px;
-        left: 25%;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-        text-align: center;
-        font-family: 'Roboto','sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-      }     */
-      /* #map_canvas {
-        height: 760px;
-        width: 1100px;
-        position: static;
-        top: 100px;
-        left: 200px;
-    } */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
 body {
   font-family: Helvetica, Arial;
   color: rgb(255, 255, 255);
 }
 
+#searchBar {
+  padding-right: 25px;
+}
+
+b {
+  font-size: 36px;
+}
 .split {
   height: 100%;
   width: 50%;
@@ -49,14 +30,16 @@ body {
   left: 0;
   background-color: black;
   overflow:hidden;
-
 }
 
 .right {
   right: 0;
   background-color: black;
   padding: 0px;
+}
 
+#additionalDiv {
+  display: none;
 }
 
 #video iframe {
@@ -65,7 +48,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  }
+}
 
 .centered {
   position: absolute;
@@ -81,6 +64,7 @@ body {
 	padding-top: 25px;
 	height: 0;
 }
+
 .videoWrapper iframe {
 	position: absolute;
 	top: 0;
@@ -95,25 +79,11 @@ body {
 	left: 0;
 	width: 100%;
   height: 100%;
-
 }
-
-/* bw */
-.map {
-  -webkit-filter: grayscale(10%);
-  -moz-filter: grayscale(100%);
-  -ms-filter: grayscale(100%);
-  -o-filter: grayscale(100%);
-   filter: grayscale(100%);
-
-}
-
-
 
 /* card opacity */
 .card-img-top {
   opacity: .4;
-
 }
 
 #map_canvas {
