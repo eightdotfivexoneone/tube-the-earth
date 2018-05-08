@@ -37,6 +37,8 @@ function initMap() {
 function tube(){
   var radius = $("#rad").val().trim();
   var queryURL = "https://www.googleapis.com/youtube/v3/search?type=video&part=snippet&location=" + lati + "," + longi + "&locationRadius=" + radius + "miles&key=AIzaSyC3hyycsztOR8N1flGac1ocYQF1PGt6F6M";
+  $("#currentLat").text(lati.toFixed(6));
+  $("#currentLong").text(longi.toFixed(6));
   
   $.ajax({
     url: queryURL,
