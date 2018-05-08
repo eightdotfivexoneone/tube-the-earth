@@ -1,3 +1,5 @@
+/* body tweaks */
+
 html, body {
   height: 100%;
   margin: 0;
@@ -9,13 +11,48 @@ body {
   color: rgb(255, 255, 255);
 }
 
+/* font tweaks */
+
+#history1 {
+  font-size: 36px;
+  font-weight: bold;
+  color: white;
+  padding-left: 10px;
+}
+#history2 {
+  font-size: 36px;
+  font-weight: bold;
+  color: white;
+  padding-left: 10px;
+}
+#history3 {
+  font-size: 36px;
+  font-weight: bold;
+  color: white;
+  padding-left: 10px;
+}
+#history4 {
+  font-size: 36px;
+  font-weight: bold;
+  color: white;
+  padding-left: 10px;
+}
+
 #searchBar {
   padding-right: 25px;
 }
 
 b {
   font-size: 36px;
+  font-weight: bold;
+  color: black;
 }
+
+h5 {
+  font-weight: bold;
+  color: black;
+}
+
 .split {
   height: 100%;
   width: 50%;
@@ -34,7 +71,7 @@ b {
 
 .right {
   right: 0;
-  background-color: black;
+  background-color: #ff0000;
   padding: 0px;
 }
 
@@ -42,9 +79,7 @@ b {
   display: none;
 }
 
-#additionalDiv {
-  display: none;
-}
+/* video iframe */
 
 #video iframe {
   position: absolute;
@@ -77,6 +112,8 @@ b {
 	height: 100%;
 }
 
+/* map tweaks */
+
 .map-section {
   position: absolute;
 	top: 0;
@@ -85,13 +122,13 @@ b {
   height: 100%;
 }
 
-/* card opacity */
-.card-img-top {
-  opacity: .4;
-}
-
 #map_canvas {
   position: relative;
   width: 100%;
   height: 100%;
+}
+
+/* card tweaks */
+.card-img-top {
+  opacity: .4;
 }
