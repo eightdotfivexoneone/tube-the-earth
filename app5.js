@@ -65,8 +65,6 @@ $(document).ready(function() {
             method: "GET"
         })
     };
-    
-    
 
     ////////////////ANYTIME A NEW ITEM IS ADDED TO THE DATABASE, AND ON LOAD////////////////    
 
@@ -129,9 +127,7 @@ $(document).ready(function() {
     }
         loadFromDatabase(snapshot);
     });
-    
 
-    
     
     ////////////////ON SEARCH BUTTON CLICK...////////////////
 
@@ -140,13 +136,7 @@ $(document).ready(function() {
         $("#user-results").empty();
         userAddress = $("#search-field").val().trim();
         event.preventDefault();
-/*
-        $("#history1").html(popularSearchArray[j + 4]);
-        $("#history2").html(popularSearchArray[j + 3]);
-        $("#history3").html(popularSearchArray[j + 2]);
-        $("#history4").html(popularSearchArray[j + 1]);
-        j++;
-*/    
+
         function saveSearch() {
             database.ref().push({
                 userAddress: userAddress, //save each new location entered by user to database
