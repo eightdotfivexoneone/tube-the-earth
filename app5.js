@@ -6,7 +6,7 @@ $(document).ready(function() {
         var userThumbnailPath;
         var popularThumbnailArray = [];
         var popularThumbnailPath;
-        var userAddress = "";
+        var address = "";
         var urlGoogle = "https://maps.googleapis.com/maps/api/geocode/json";
         var apiKeyGoogle = "AIzaSyCXz3ctOfdCYgcEHTokEyM5Dso_kiMJDeY";
         var urlYoutube = "https://www.googleapis.com/youtube/v3/search";
@@ -132,14 +132,14 @@ $(document).ready(function() {
     ////////////////ON SEARCH BUTTON CLICK...////////////////
 
     
-    $("#search-button").on("click", function() {
-        $("#user-results").empty();
-        userAddress = $("#search-field").val().trim();
+    $("#submit").on("click", function() {
+        //$(historyDiv).empty();
+        address = $("#searchBar").val().trim();
         event.preventDefault();
 
         function saveSearch() {
             database.ref().push({
-                userAddress: userAddress, //save each new location entered by user to database
+                address: address, //save each new location entered by user to database
             });
         };
         saveSearch();
