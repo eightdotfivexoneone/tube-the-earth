@@ -50,12 +50,6 @@ $(document).ready(function() {
                 reject('no geocoder');
             }
         });
-
-
-//        return $.ajax({
-//            url: urlGoogle,
-//            method: "GET"
-//        })
     }
     
     function youtubeAjax(urlYoutube) {
@@ -65,29 +59,16 @@ $(document).ready(function() {
         })
     }
     
-    // var geocoder = new google.maps.Geocoder();
-    
     ////////////////ANYTIME A NEW ITEM IS ADDED TO THE DATABASE, AND ON LOAD////////////////
     
     database.ref().on("child_added", function(snapshot) {
     
-    //for each item in database...
-    //grab lat/long
-    //grab thumbnail
-    //push to array
-    //print updated array to page
-    
-    
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         function loadFromDatabase(snapshot) {
-
-//            $("#recent-searches").empty();
             snapshot.forEach(function(childSnapshot) { //for each child in database...
                 var popularSearchItem = childSnapshot.val(); //grab value
                 popularSearchArray.push(popularSearchItem)
-                console.log(popularSearchArray)
-                console.log(popularSearchItem)
                 $("#history1").html(popularSearchArray[0])
                 $("#history2").html(popularSearchArray[1])
                 $("#history3").html(popularSearchArray[2])
@@ -97,13 +78,11 @@ $(document).ready(function() {
                     'address': popularSearchItem,
                     'key': apiKeyGoogle
                 });
-                //console.log("urlGoogle: ",urlGoogle);
-    
+
                 mapsAjax(popularSearchItem, newMapsURL) //call to google maps API to grab data for each item in database
                 .then (function(results) {
                     var lat = results.lat;
                     var long = results.lng;
-                    console.log(lat + "," + long) //correct
                     
                     var newYoutubeURL = urlYoutube;
                     newYoutubeURL += "?" + $.param({ //modify youtube API url for each location item in database
@@ -116,7 +95,6 @@ $(document).ready(function() {
                         'key': apiKeyYoutube,
                         'chart': 'mostPopular'
                     })
-                    console.log(newYoutubeURL) //correct
                     youtubeAjax(newYoutubeURL) //call to youtube api to grab data for each item in database
                     .then (function(response) {
                         console.log(response)
@@ -133,10 +111,6 @@ $(document).ready(function() {
                         else {
                             $("#historyDiv").html(popularThumbnailArray); //push updated contents of thumbnail array to page
                         }
-
-                        //console.log(popularThumbnailArray)
-                        
-                        
                     })
                 })
             })
@@ -161,9 +135,7 @@ $(document).ready(function() {
         $("#history4").html(popularSearchArray[j + 1])
         popularSearchArray.shift();
         popularSearchArray.splice(0, 1);
-        console.log(popularSearchArray)
         j++
-        console.log(j);
         function saveSearch() {
             database.ref().push({
                 userAddress: userAddress, //save each new location entered by user to database
@@ -201,8 +173,7 @@ $(document).ready(function() {
                         userThumbnailArray.push(userThumbnail);
                         console.log(response.items[i])                        
                         }
-
-                        $("#user-results").append(userThumbnailArray);
+                    $("#user-results").append(userThumbnailArray);
                 });
             });
         }
