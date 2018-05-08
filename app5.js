@@ -11,8 +11,8 @@ $(document).ready(function() {
         var apiKeyGoogle = "AIzaSyCXz3ctOfdCYgcEHTokEyM5Dso_kiMJDeY";
         var urlYoutube = "https://www.googleapis.com/youtube/v3/search";
         var apiKeyYoutube = "AIzaSyC3hyycsztOR8N1flGac1ocYQF1PGt6F6M";
-//        var lat;    not needed?
-//        var long;   not needed?
+        var lat;
+        var long;
         var popularSearchArray = []; //added
         var j = 0;
 
@@ -67,7 +67,7 @@ $(document).ready(function() {
     var geocoder = new google.maps.Geocoder();
     
 
-    ////////////////ANYTIME A NEW ITEM IS ADDED TO THE DATABASE, AND ON LOAD////////////////
+    ////////////////ANYTIME A NEW ITEM IS ADDED TO THE DATABASE, AND ON LOAD////////////////    
 
     database.ref().on("child_added", function(snapshot) {
     
