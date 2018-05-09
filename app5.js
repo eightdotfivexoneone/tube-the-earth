@@ -109,10 +109,10 @@ $(document).ready(function() {
                         var popularThumbnailId = response.items[0].id.videoId;
                         //var popularThumbnail = $("<img id='popular'>" + "<br><br>"); //?????????????????????????????
                         //popularThumbnail.attr("src", popularThumbnailPath); //assign src for thumbnail img //?????????????????
-                        var link = "https://www.youtube.com/embed/";
+                        var link = "http://www.youtube.com/embed/";
                         link += popularThumbnailId;
                         console.log(link); //correct
-                        var popularThumbnail = $("<iframe width='100%' height='100%' src=" + link + "frameborder='0' scrolling='no' id='myFrame' allow='autoplay; encrypted-media' allowfullscreen></iframe>").appendTo('#historyDiv');
+                        var popularThumbnail = $("<iframe width='100%' src=" + link + "frameborder='0' scrolling='no' id='myFrame' allow='autoplay; encrypted-media' allowfullscreen></iframe>").appendTo('#historyDiv');
 //                      //on click, function openLink () { open corresponding "link" URL in new window }
                         popularThumbnailArray.push(popularThumbnail);
                         if (popularThumbnailArray.length >= 6) {
