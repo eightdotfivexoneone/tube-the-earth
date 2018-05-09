@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
 
     /////////////////////////////////////////////////////BIG VARIABLES/////////////////////////////////////////////////////
@@ -108,11 +109,9 @@ $(document).ready(function() {
                         popularThumbnailPath = response.items[0].snippet.thumbnails.default.url;
                         var popularThumbnailId = response.items[0].id.videoId;
                         //var popularThumbnail = $("<img id='popular'>" + "<br><br>"); //?????????????????????????????
-                        //popularThumbnail.attr("src", popularThumbnailPath); //assign src for thumbnail img //?????????????????
                         var link = "http://www.youtube.com/embed/";
                         link += popularThumbnailId;
-                        console.log(link); //correct
-                        var popularThumbnail = $("<iframe width='100%' src=" + link + "frameborder='0' scrolling='no' id='myFrame' allow='autoplay; encrypted-media' allowfullscreen></iframe>").appendTo('#historyDiv');
+                        var popularThumbnail = $("<iframe width='100%' src='https://www.youtube.com/embed/" + popularThumbnailId + "'frameborder='0' allow='autoplay; encrypted-media' allowfullscreen></iframe>").appendTo('#historyDiv');                        //popularThumbnail.attr("src", popularThumbnailPath); //assign src for thumbnail img //?????????????????
 //                      //on click, function openLink () { open corresponding "link" URL in new window }
                         popularThumbnailArray.push(popularThumbnail);
                         if (popularThumbnailArray.length >= 6) {
