@@ -107,14 +107,13 @@ $(document).ready(function() {
                     .then (function(response) {
                         popularThumbnailPath = response.items[0].snippet.thumbnails.default.url;
                         var popularThumbnailId = response.items[0].id.videoId;
-                        var popularThumbnail = $("<img id='popular'>");
-                        popularThumbnail.attr("src", popularThumbnailPath); //assign src for thumbnail img
-                        var link = "http://youtube.com/watch";
-                        link += "?" + $.param({
-                            v: popularThumbnailId
-                        });
-                        console.log(link);
-                        $("#popular").wrap($("<a>").attr("href", link));
+                        //var popularThumbnail = $("<img id='popular'>" + "<br><br>"); //?????????????????????????????
+                        //popularThumbnail.attr("src", popularThumbnailPath); //assign src for thumbnail img //?????????????????
+                        var link = "https://www.youtube.com/embed/";
+                        link += popularThumbnailId;
+                        console.log(link); //correct
+                        var popularThumbnail = $("<iframe width='100%' height='100%' src=" + link + "frameborder='0' scrolling='no' id='myFrame' allow='autoplay; encrypted-media' allowfullscreen></iframe>").appendTo('#historyDiv');
+//                      //on click, function openLink () { open corresponding "link" URL in new window }
                         popularThumbnailArray.push(popularThumbnail);
                         if (popularThumbnailArray.length >= 6) {
                             popularThumbnailArray.shift();
@@ -123,7 +122,7 @@ $(document).ready(function() {
                         else {
                             $("#historyDiv").html(popularThumbnailArray); //push updated contents of thumbnail array to page
                         }
-                    
+                    //replace("watch?v=", "v/");
                     })
                 })
             
