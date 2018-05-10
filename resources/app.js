@@ -68,6 +68,7 @@ function geocodeAddress(geocoder, resultsMap) {
 }
 function initialize() {
   var latlng = new google.maps.LatLng(42.55308, 9.140625);
+  $("#mainVideo").html(popularThumbnailArray[0]);
   var myOptions = {
     zoom: 2,
     center: latlng,
