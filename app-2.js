@@ -111,9 +111,9 @@ $(document).ready(function() {
                         //var popularThumbnail = $("<img id='popular'>" + "<br><br>"); //?????????????????????????????
                         var link = "http://www.youtube.com/embed/";
                         link += popularThumbnailId;
-                        var popularThumbnail = $("<iframe width='100%' src='https://www.youtube.com/embed/" + popularThumbnailId + "'frameborder='0' allow='autoplay; encrypted-media' allowfullscreen></iframe>").appendTo('#historyDiv');                        //popularThumbnail.attr("src", popularThumbnailPath); //assign src for thumbnail img //?????????????????
+                        var popularThumbnail = $("<iframe width='100%' src='https://www.youtube.com/embed/" + popularThumbnailId + "'frameborder='0' allow='autoplay; encrypted-media' allowfullscreen></iframe>").prependTo('#historyDiv');                        //popularThumbnail.attr("src", popularThumbnailPath); //assign src for thumbnail img //?????????????????
 //                      //on click, function openLink () { open corresponding "link" URL in new window }
-                        popularThumbnailArray.push(popularThumbnail);
+                        popularThumbnailArray.prepend(popularThumbnail);
                         if (popularThumbnailArray.length >= 6) {
                             popularThumbnailArray.shift();
                             $("#historyDiv").html(popularThumbnailArray);
